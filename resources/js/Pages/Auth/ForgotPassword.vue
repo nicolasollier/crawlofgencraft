@@ -1,10 +1,17 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/InputError.vue";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
+import { useForm } from "@inertiajs/vue3";
+import { Button } from "@/Components/ui/button";
+import {
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+} from "@/Components/ui/card";
 
 defineProps({
     status: {
@@ -13,36 +20,31 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    email: "",
 });
 
 const submit = () => {
-    form.post(route('password.email'));
+    form.post(route("password.email"));
 };
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
-
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email
-            address and we will email you a password reset link that will allow
-            you to choose a new one.
-        </div>
-
-        <div
-            v-if="status"
-            class="mb-4 text-sm font-medium text-green-600"
-        >
-            {{ status }}
-        </div>
+        <CardHeader>
+            <CardTitle class="text-xl mb-2">Mot de passe oublié ?</CardTitle>
+            <CardDescription>
+                Vous avez oublié votre mot de passe ? Pas de problème.
+                Indiquez-nous simplement votre adresse e-mail et nous vous
+                enverrons un lien de réinitialisation qui vous permettra d'en
+                choisir un nouveau.
+            </CardDescription>
+        </CardHeader>
 
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
+            <CardContent>
+                <Label for="email" value="Email">Email</Label>
 
-                <TextInput
+                <Input
                     id="email"
                     type="email"
                     class="mt-1 block w-full"
@@ -53,16 +55,19 @@ const submit = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+            </CardContent>
 
-            <div class="mt-4 flex items-center justify-end">
-                <PrimaryButton
+            <CardFooter class="mt-4 flex items-center justify-end">
+                <Button
+                    class="w-full"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
+                    @click="submit"
+                    type="submit"
                 >
-                    Email Password Reset Link
-                </PrimaryButton>
-            </div>
+                    Envoyer le lien
+                </Button>
+            </CardFooter>
         </form>
     </GuestLayout>
 </template>

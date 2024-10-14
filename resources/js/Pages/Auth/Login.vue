@@ -40,7 +40,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" @keydown.enter.prevent="submit">
             <CardHeader>
                 <CardTitle class="text-2xl">Connexion</CardTitle>
                 <CardDescription>
