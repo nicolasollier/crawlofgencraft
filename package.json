@@ -14,7 +14,18 @@
         "laravel-vite-plugin": "^1.0",
         "postcss": "^8.4.31",
         "tailwindcss": "^3.2.1",
+        "typescript": "^5.6.3",
         "vite": "^5.0",
         "vue": "^3.4.0"
+    },
+    "dependencies": {
+        "@radix-icons/vue": "^1.0.0",
+        "@vueuse/core": "^11.1.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.1.1",
+        "lucide-vue-next": "^0.452.0",
+        "radix-vue": "^1.9.7",
+        "tailwind-merge": "^2.5.3",
+        "tailwindcss-animate": "^1.0.7"
     }
 }
