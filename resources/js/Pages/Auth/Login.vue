@@ -1,10 +1,7 @@
 <script setup>
-import Checkbox from "@/Components/Checkbox.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import { Label } from "@/Components/ui/label";
 import { Input } from "@/Components/ui/input";
 import {
     CardHeader,
@@ -50,7 +47,7 @@ const submit = () => {
 
             <CardContent class="grid gap-4">
                 <div class="grid gap-2">
-                    <InputLabel for="email" value="Email" />
+                    <Label for="email" value="Email" />
 
                     <Input
                         id="email"

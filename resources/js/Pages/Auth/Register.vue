@@ -80,7 +80,6 @@ const submit = () => {
                         type="password"
                         required
                     />
-                    <PasswordStrengthIndicator :password="form.password" />
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
                 <Button
