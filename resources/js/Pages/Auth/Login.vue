@@ -1,11 +1,20 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import Checkbox from "@/Components/Checkbox.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+import { Input } from "@/Components/ui/input";
+import {
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+} from "@/Components/ui/card";
+import { Button } from "@/Components/ui/button";
+import { Head, Link, useForm } from "@inertiajs/vue3";
 
 defineProps({
     canResetPassword: {
@@ -17,84 +26,87 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     remember: false,
 });
 
 const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+    form.post(route("login"), {
+        onFinish: () => form.reset("password"),
     });
 };
 </script>
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
-
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
-
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
+            <CardHeader>
+                <CardTitle class="text-2xl">Connexion</CardTitle>
+                <CardDescription>
+                    Entrez votre email ci-dessous pour vous connecter à votre compte.
+                </CardDescription>
+            </CardHeader>
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
+            <CardContent class="grid gap-4">
+                <div class="grid gap-2">
+                    <InputLabel for="email" value="Email" />
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+                    <Input
+                        id="email"
+                        type="email"
+                        class="mt-1 block w-full"
+                        v-model="form.email"
+                        required
+                        autofocus
+                    />
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                    <InputError class="mt-0.5" :message="form.errors.email" />
+                </div>
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
+                <div v-if="canResetPassword" class="grid gap-2">
+                    <div class="flex items-center">
+                        <Label htmlFor="password">Mot de passe</Label>
+                        <Link
+                            :href="route('password.request')"
+                            className="ml-auto inline-block text-sm underline"
+                        >
+                            Mot de passe oublié ?
+                        </Link>
+                    </div>
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+                    <Input
+                        id="password"
+                        type="password"
+                        class="mt-1 block w-full"
+                        v-model="form.password"
+                        required
+                        autocomplete="current-password"
+                    />
+                    
+                    <InputError
+                        class="mt-0.5"
+                        :message="form.errors.password"
+                    />
+                </div>
+            </CardContent>
 
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
+            <CardFooter class="flex flex-col gap-2 mt-4">
+                <Button
+                    class="w-full"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
+                    @click="submit"
+                    type="submit"
                 >
-                    Log in
-                </PrimaryButton>
-            </div>
+                    Se connecter
+                </Button>
+
+                <div className="mt-2 text-center text-sm">
+                    Vous n&apos;avez pas de compte ?
+                    <Link :href="route('register')" className="underline"> S&apos;inscrire </Link>
+                </div>
+            </CardFooter>
         </form>
     </GuestLayout>
 </template>
