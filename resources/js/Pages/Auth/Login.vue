@@ -41,13 +41,14 @@ const submit = () => {
             <CardHeader>
                 <CardTitle class="text-2xl">Connexion</CardTitle>
                 <CardDescription>
-                    Entrez votre email ci-dessous pour vous connecter à votre compte.
+                    Entrez votre email ci-dessous pour vous connecter à votre
+                    compte.
                 </CardDescription>
             </CardHeader>
 
             <CardContent class="grid gap-4">
                 <div class="grid gap-2">
-                    <Label for="email" value="Email" />
+                    <Label for="email">Email</Label>
 
                     <Input
                         id="email"
@@ -64,6 +65,7 @@ const submit = () => {
                 <div v-if="canResetPassword" class="grid gap-2">
                     <div class="flex items-center">
                         <Label htmlFor="password">Mot de passe</Label>
+
                         <Link
                             :href="route('password.request')"
                             className="ml-auto inline-block text-sm underline"
@@ -80,7 +82,7 @@ const submit = () => {
                         required
                         autocomplete="current-password"
                     />
-                    
+
                     <InputError
                         class="mt-0.5"
                         :message="form.errors.password"
@@ -101,7 +103,9 @@ const submit = () => {
 
                 <div className="mt-2 text-center text-sm">
                     Vous n&apos;avez pas de compte ?
-                    <Link :href="route('register')" className="underline"> S&apos;inscrire </Link>
+                    <Link :href="route('register')" className="underline">
+                        S&apos;inscrire
+                    </Link>
                 </div>
             </CardFooter>
         </form>
