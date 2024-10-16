@@ -17,9 +17,9 @@ const form = useForm({
 const characterGenerated = ref(false);
 
 const generateCharacter = () => {
-    form.strength = Math.floor(Math.random() * 100) + 1;
-    form.agility = Math.floor(Math.random() * 100) + 1;
-    form.intelligence = Math.floor(Math.random() * 100) + 1;
+    form.strength = Math.floor(Math.random() * 100) + 5;
+    form.agility = Math.floor(Math.random() * 100) + 5;
+    form.intelligence = Math.floor(Math.random() * 100) + 5;
     characterGenerated.value = true;
 };
 
