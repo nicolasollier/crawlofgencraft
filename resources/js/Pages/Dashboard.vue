@@ -6,7 +6,7 @@ import Badge from "@/Components/ui/badge/Badge.vue";
 import Label from "@/Components/ui/label/Label.vue";
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
-import { Shield, Sword, Coins } from 'lucide-vue-next';
+import { Heart, Zap, Coins, Shield, Sword } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -55,65 +55,75 @@ const submitMessage = () => {
         </div>
 
         <div v-else class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
-            <div class="relative hidden flex-col items-start gap-8 md:flex overflow-y-auto">
-                <form class="grid w-full items-start gap-6">
-                    <!-- Character fieldset -->
-                    <fieldset class="grid gap-6 rounded-lg border p-4">
-                        <legend class="-ml-1 px-1 text-sm font-medium">
-                            Fiche de personnage
-                        </legend>
-                        <div class="grid gap-3">
-                            <Label for="character_name">Nom</Label>
-                            <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe"
-                                disabled />
-                        </div>
-                        <div class="grid grid-col gap-4">
-                            <div class="grid gap-3">
-                                <Label for="health">PV</Label>
-                                <Input id="health" v-model="character.health" type="number" placeholder="100"
-                                    disabled />
-                            </div>
-                            <div class="grid gap-3">
-                                <Label for="mana">Mana</Label>
-                                <Input id="mana" v-model="character.mana" type="number" placeholder="100" disabled />
-                            </div>
-                            <div class="grid gap-3">
-                                <Label for="gold">Gold</Label>
-                                <Input id="gold" v-model="character.gold" type="number" placeholder="0" disabled />
+            <div class="flex flex-col h-full overflow-hidden">
+                <!-- Fiche de personnage -->
+                <fieldset class="grid gap-4 rounded-lg border p-4 mb-4">
+                    <legend class="-ml-1 px-1 text-sm font-medium">
+                        Fiche de personnage
+                    </legend>
+                    <div class="grid gap-3">
+                        <Label for="character_name">Nom</Label>
+                        <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe"
+                            disabled />
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <Heart class="w-4 h-4 text-red-500" />
+                            <div class="flex-grow">
+                                <div class="h-2 bg-red-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-red-500 rounded-full"
+                                        :style="{ width: `${(character.hp / 100) * 100}%` }">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </fieldset>
+                        <div class="flex items-center gap-2">
+                            <Zap class="w-4 h-4 text-blue-500" />
+                            <div class="flex-grow">
+                                <div class="h-2 bg-blue-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-blue-500 rounded-full"
+                                        :style="{ width: `${(character.mana / 100) * 100}%` }"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <span class="text-amber-700 bg-amber-100 px-2 py-1 rounded-full text-sm flex items-center">
+                            <Coins class="inline w-4 h-4 mr-1" />
+                            {{ character.gold }} Gold
+                        </span>
+                    </div>
+                </fieldset>
 
-                    <!-- Inventory fieldset -->
-                    <fieldset class="grid gap-6 rounded-lg border p-4">
-                        <legend class="-ml-1 px-1 text-sm font-medium">
-                            Inventaire
-                        </legend>
+                <!-- Inventaire -->
+                <fieldset class="flex flex-col flex-grow rounded-lg border p-4 overflow-hidden">
+                    <legend class="-ml-1 px-1 text-sm font-medium">
+                        Inventaire
+                    </legend>
+                    <div class="flex-grow overflow-y-auto pr-2">
                         <div v-for="item in inventory" :key="item.id"
-                            class="bg-white p-2">
-                            <div class="flex gap-3 items-center">
-                                <h3 class="text-lg font-semibold">{{ item.name }}</h3>
-                                <Badge variant="secondary">{{ item.item_type }}</Badge>
+                            class="bg-white p-3 mb-2 last:mb-0 rounded-md shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-base font-semibold">{{ item.name }}</h3>
                             </div>
-                            <p class="text-sm text-gray-600 mt-1">{{ item.description }}</p>
-                            <div class="flex gap-3 mt-2 text-sm">
-                                <span v-if="item.armor_bonus" class="text-zinc-900">
-                                    <Shield class="inline w-4 h-4" />
+                            <p class="text-xs text-gray-600 mt-1 mb-2">{{ item.description }}</p>
+                            <div class="flex gap-2 text-xs">
+                                <span v-if="item.armor_bonus" class="text-zinc-900 bg-zinc-100 px-2 py-1 rounded-full">
+                                    <Shield class="inline w-3 h-3 mr-1" />
                                     +{{ item.armor_bonus }}
                                 </span>
-                                <span class="text-zinc-900">|</span>
-                                <span v-if="item.damage_bonus" class="text-zinc-900">
-                                    <Sword class="inline w-4 h-4" />
+                                <span v-if="item.damage_bonus" class="text-zinc-900 bg-zinc-100 px-2 py-1 rounded-full">
+                                    <Sword class="inline w-3 h-3 mr-1" />
                                     +{{ item.damage_bonus }}
                                 </span>
-                                <span class="text-amber-500">
-                                    <Coins class="inline w-4 h-4" />
+                                <span v-if="item.value" class="text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
+                                    <Coins class="inline w-3 h-3 mr-1" />
                                     {{ item.value }} po
                                 </span>
                             </div>
                         </div>
-                    </fieldset>
-                </form>
+                    </div>
+                </fieldset>
             </div>
 
             <!-- Right column (output and input) -->
