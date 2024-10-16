@@ -19,6 +19,14 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $user = Auth::user();
     $characters = $user->characters;
+    $characters->load('inventory.item');
+
+    $characters = $characters->map(function ($character) {
+        if (!$character->inventory) {
+            $character->inventory = collect();
+        }
+        return $character;
+    });
 
     return Inertia::render('Dashboard', [
         'characters' => $characters,
@@ -38,4 +46,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

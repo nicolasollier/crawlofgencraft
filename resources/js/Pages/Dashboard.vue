@@ -15,9 +15,11 @@ const props = defineProps({
     },
 });
 
-const cardHovered = ref(false)
 const character = props.characters[0];
 const noCharacters = !character;
+const inventory = character ? character.inventory : [];
+
+const cardHovered = ref(false)
 
 const submitMessage = () => {
     console.log("Sending message:", userMessage.value);
