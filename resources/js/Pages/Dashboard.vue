@@ -102,7 +102,7 @@ const submitMessage = () => {
                             <p class="text-muted-foreground text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
                         </div>
                         <div v-else v-for="item in inventory" :key="item.id"
-                            class="bg-white p-3 mb-2 last:mb-0 rounded-md shadow-sm">
+                            class="bg-white p-3 mb-2 last:mb-0">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-base font-semibold">{{ item.name }}</h3>
                             </div>
