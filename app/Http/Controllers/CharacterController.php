@@ -13,9 +13,9 @@ class CharacterController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'strength' => 'required|integer|min:5|max:15',
-            'agility' => 'required|integer|min:5|max:15',
-            'intelligence' => 'required|integer|min:5|max:15',
+            'strength' => 'required|integer|min:5|max:100',
+            'agility' => 'required|integer|min:5|max:100',
+            'intelligence' => 'required|integer|min:5|max:100',
         ]);
 
         $character = Character::create([
