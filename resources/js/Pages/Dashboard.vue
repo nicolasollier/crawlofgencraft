@@ -6,6 +6,7 @@ import Badge from "@/Components/ui/badge/Badge.vue";
 import Label from "@/Components/ui/label/Label.vue";
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
+import { Shield, Sword, Coins } from 'lucide-vue-next';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -17,7 +18,7 @@ const props = defineProps({
 
 const character = props.characters[0];
 const noCharacters = !character;
-const inventory = character ? character.inventory : [];
+const inventory = character ? character.inventory.map(entry => entry.item) : [];
 
 const cardHovered = ref(false)
 
@@ -44,10 +45,10 @@ const submitMessage = () => {
                         alt="Créez votre personnage" />
 
                     <Link :href="route('characters.create')">
-                        <Button size="lg" class="mt-6">
-                            <PlusCircle class="mr-2 h-5 w-5" />
-                            Créer un personnage
-                        </Button>
+                    <Button size="lg" class="mt-6">
+                        <PlusCircle class="mr-2 h-5 w-5" />
+                        Créer un personnage
+                    </Button>
                     </Link>
                 </div>
             </div>
@@ -63,12 +64,14 @@ const submitMessage = () => {
                         </legend>
                         <div class="grid gap-3">
                             <Label for="character_name">Nom</Label>
-                            <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe" disabled />
+                            <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe"
+                                disabled />
                         </div>
                         <div class="grid grid-col gap-4">
                             <div class="grid gap-3">
                                 <Label for="health">PV</Label>
-                                <Input id="health" v-model="character.health" type="number" placeholder="100" disabled />
+                                <Input id="health" v-model="character.health" type="number" placeholder="100"
+                                    disabled />
                             </div>
                             <div class="grid gap-3">
                                 <Label for="mana">Mana</Label>
@@ -77,6 +80,36 @@ const submitMessage = () => {
                             <div class="grid gap-3">
                                 <Label for="gold">Gold</Label>
                                 <Input id="gold" v-model="character.gold" type="number" placeholder="0" disabled />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Inventory fieldset -->
+                    <fieldset class="grid gap-6 rounded-lg border p-4">
+                        <legend class="-ml-1 px-1 text-sm font-medium">
+                            Inventaire
+                        </legend>
+                        <div v-for="item in inventory" :key="item.id"
+                            class="bg-white p-2">
+                            <div class="flex gap-3 items-center">
+                                <h3 class="text-lg font-semibold">{{ item.name }}</h3>
+                                <Badge variant="secondary">{{ item.item_type }}</Badge>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">{{ item.description }}</p>
+                            <div class="flex gap-3 mt-2 text-sm">
+                                <span v-if="item.armor_bonus" class="text-zinc-900">
+                                    <Shield class="inline w-4 h-4" />
+                                    +{{ item.armor_bonus }}
+                                </span>
+                                <span class="text-zinc-900">|</span>
+                                <span v-if="item.damage_bonus" class="text-zinc-900">
+                                    <Sword class="inline w-4 h-4" />
+                                    +{{ item.damage_bonus }}
+                                </span>
+                                <span class="text-amber-500">
+                                    <Coins class="inline w-4 h-4" />
+                                    {{ item.value }} po
+                                </span>
                             </div>
                         </div>
                     </fieldset>
