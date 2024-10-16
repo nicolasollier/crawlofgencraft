@@ -5,74 +5,74 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/Components/ui/card";
+import { ref } from 'vue';
 
 const form = useForm({
     name: '',
-    class: '',
-    strength: 10,
-    agility: 10,
-    intelligence: 10,
+    strength: '',
+    agility: '',
+    intelligence: '',
 });
+
+const characterGenerated = ref(false);
+
+const generateCharacter = () => {
+    form.strength = Math.floor(Math.random() * 10) + 5;
+    form.agility = Math.floor(Math.random() * 10) + 5;
+    form.intelligence = Math.floor(Math.random() * 10) + 5;
+    characterGenerated.value = true;
+};
 
 const submit = () => {
     form.post(route('characters.store'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
+            characterGenerated.value = false;
         },
     });
 };
 </script>
 
 <template>
-
-    <Head title="Créer un personnage" />
-
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Créer un nouveau personnage
-            </h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Nouveau personnage</CardTitle>
-                        <CardDescription>Créez votre nouveau héros pour l'aventure</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <form @submit.prevent="submit">
-                            <div class="grid gap-4">
-                                <div>
-                                    <Label for="name">Nom du personnage</Label>
-                                    <Input id="name" v-model="form.name" type="text" required />
-                                </div>
-                                <div>
-                                    <Label for="class">Classe</Label>
-                                    <Input id="class" v-model="form.class" type="text" required />
-                                </div>
-                                <div>
-                                    <Label for="strength">Force</Label>
-                                    <Input id="strength" v-model="form.strength" type="number" required />
-                                </div>
-                                <div>
-                                    <Label for="agility">Agilité</Label>
-                                    <Input id="agility" v-model="form.agility" type="number" required />
-                                </div>
-                                <div>
-                                    <Label for="intelligence">Intelligence</Label>
-                                    <Input id="intelligence" v-model="form.intelligence" type="number" required />
-                                </div>
+        <div
+            class="w-full rounded-md p-4 border border-border bg-card shadow-sm transition-all duration-200 ease-in-out hover:shadow-sm">
+            <CardHeader>
+                <CardTitle>Nouveau personnage</CardTitle>
+                <CardDescription>Créez votre nouveau héros pour l'aventure</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form @submit.prevent="submit">
+                    <fieldset>
+                        <legend class="sr-only">Informations du personnage</legend>
+                        <div class="grid gap-4">
+                            <div>
+                                <Label for="name">Nom du personnage</Label>
+                                <Input class="mt-1" id="name" v-model="form.name" type="text" required />
                             </div>
-                        </form>
-                    </CardContent>
-                    <CardFooter>
-                        <Button @click="submit" type="submit">Créer le personnage</Button>
-                    </CardFooter>
-                </Card>
-            </div>
+                            <div>
+                                <Label for="strength">Force</Label>
+                                <Input class="mt-1" id="strength" v-model="form.strength" type="number" disabled />
+                            </div>
+                            <div>
+                                <Label for="agility">Agilité</Label>
+                                <Input class="mt-1" id="agility" v-model="form.agility" type="number" disabled />
+                            </div>
+                            <div>
+                                <Label for="intelligence">Intelligence</Label>
+                                <Input class="mt-1" id="intelligence" v-model="form.intelligence" type="number" disabled />
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </CardContent>
+            <CardFooter class="flex justify-end gap-2">
+                <Button @click="generateCharacter" type="button" variant="secondary">
+                    {{ characterGenerated ? 'Relancer les caractéristiques' : 'Générer les caractéristiques' }}
+                </Button>
+                <Button @click="submit" type="submit" :disabled="!characterGenerated">Créer le personnage</Button>
+            </CardFooter>
         </div>
     </AuthenticatedLayout>
 </template>

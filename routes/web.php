@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CharacterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,7 +30,7 @@ Route::get('/characters/create', function () {
     return Inertia::render('CreateCharacter');
 })->middleware(['auth', 'verified'])->name('characters.create');
 
-// Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
+Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

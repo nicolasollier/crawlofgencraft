@@ -3,9 +3,7 @@ import {
     SquareTerminal,
     Triangle,
 } from "lucide-vue-next";
-
 import { usePage } from '@inertiajs/vue3';
-
 import Button from "@/Components/ui/button/Button.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";
@@ -40,7 +38,7 @@ const userPseudo = page.props.auth.user.pseudo;
                 </header>
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-auto p-4 bg-zinc-100">
+                <main class="flex-1 overflow-auto p-4">
                     <slot></slot>
                 </main>
             </div>
