@@ -52,74 +52,71 @@ const submitMessage = () => {
         </div>
 
         <div v-else class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
-            <div class="flex flex-col h-full overflow-hidden">
+            <div class="flex flex-col h-full overflow-hidden space-y-4">
                 <!-- Fiche de personnage -->
-                <fieldset class="grid gap-4 rounded-lg border p-4 mb-4">
-                    <legend class="-ml-1 px-1 text-sm font-medium">
+                <fieldset class="rounded-lg border p-4">
+                    <legend class="px-2 text-sm font-medium">
                         Fiche de personnage
                     </legend>
-                    <div class="grid gap-3">
-                        <Label for="character_name">Nom</Label>
-                        <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe"
-                            disabled />
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <Heart class="w-4 h-4 text-red-500" />
-                            <div class="flex-grow">
-                                <div class="h-2 bg-red-200 rounded-full overflow-hidden">
-                                    <div class="h-full bg-red-500 rounded-full"
-                                        :style="{ width: `${(character.hp / 100) * 100}%` }">
+                    <div class="space-y-4">
+                        <div>
+                            <Label for="character_name">Nom</Label>
+                            <Input id="character_name" v-model="character.name" type="text" placeholder="John Doe" disabled />
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <Heart class="w-4 h-4 text-zinc-800" />
+                                <div class="flex-grow">
+                                    <div class="h-2 bg-zinc-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-zinc-800 rounded-full"
+                                            :style="{ width: `${(character.hp / 100) * 100}%` }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <Zap class="w-4 h-4 text-zinc-800" />
+                                <div class="flex-grow">
+                                    <div class="h-2 bg-zinc-200 rounded-full overflow-hidden">
+                                        <div class="h-full bg-zinc-800 rounded-full"
+                                            :style="{ width: `${(character.mana / 100) * 100}%` }"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <Zap class="w-4 h-4 text-blue-500" />
-                            <div class="flex-grow">
-                                <div class="h-2 bg-blue-200 rounded-full overflow-hidden">
-                                    <div class="h-full bg-blue-500 rounded-full"
-                                        :style="{ width: `${(character.mana / 100) * 100}%` }"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex">
-                        <span class="text-amber-700 bg-amber-100 px-2 py-1 rounded-full text-sm flex items-center">
-                            <Coins class="inline w-4 h-4 mr-1" />
-                            {{ character.gold }} Gold
-                        </span>
                     </div>
                 </fieldset>
 
                 <!-- Inventaire -->
-                <fieldset class="flex flex-col flex-grow rounded-lg border p-4 overflow-hidden">
-                    <legend class="-ml-1 px-1 text-sm font-medium">
+                <fieldset class="rounded-lg border p-4">
+                    <legend class="px-2 text-sm font-medium">
                         Inventaire
                     </legend>
-                    <div class="flex-grow overflow-y-auto pr-2">
+                    <div>
                         <div v-if="inventory.length === 0">
-                            <p class="text-muted-foreground text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
+                            <p class="text-zinc-500 text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
                         </div>
-                        <div v-else v-for="item in inventory" :key="item.id"
-                            class="bg-white p-3 mb-2 last:mb-0">
-                            <div class="flex justify-between items-start">
-                                <h3 class="text-base font-semibold">{{ item.name }}</h3>
-                            </div>
-                            <p class="text-xs text-gray-600 mt-1 mb-2">{{ item.description }}</p>
-                            <div class="flex gap-2 text-xs">
-                                <span v-if="item.armor_bonus" class="text-zinc-900 bg-zinc-100 px-2 py-1 rounded-full">
-                                    <Shield class="inline w-3 h-3 mr-1" />
-                                    +{{ item.armor_bonus }}
-                                </span>
-                                <span v-if="item.damage_bonus" class="text-zinc-900 bg-zinc-100 px-2 py-1 rounded-full">
-                                    <Sword class="inline w-3 h-3 mr-1" />
-                                    +{{ item.damage_bonus }}
-                                </span>
-                                <span v-if="item.value" class="text-amber-700 bg-amber-100 px-2 py-1 rounded-full">
-                                    <Coins class="inline w-3 h-3 mr-1" />
-                                    {{ item.value }} po
-                                </span>
+                        <div v-else class="max-h-[300px] overflow-y-auto pr-2 space-y-2">
+                            <div v-for="item in inventory" :key="item.id"
+                                class="bg-white p-3 rounded-md border border-zinc-200">
+                                <div class="flex justify-between items-start">
+                                    <h3 class="text-base font-semibold">{{ item.name }}</h3>
+                                </div>
+                                <p class="text-xs text-zinc-600 mt-1 mb-2">{{ item.description }}</p>
+                                <div class="flex gap-2 text-xs">
+                                    <span v-if="item.armor_bonus" class="text-zinc-800 bg-zinc-100 px-2 py-1 rounded-full">
+                                        <Shield class="inline w-3 h-3 mr-1" />
+                                        +{{ item.armor_bonus }}
+                                    </span>
+                                    <span v-if="item.damage_bonus" class="text-zinc-800 bg-zinc-100 px-2 py-1 rounded-full">
+                                        <Sword class="inline w-3 h-3 mr-1" />
+                                        +{{ item.damage_bonus }}
+                                    </span>
+                                    <span v-if="item.value" class="text-zinc-800 bg-zinc-100 px-2 py-1 rounded-full">
+                                        <Coins class="inline w-3 h-3 mr-1" />
+                                        {{ item.value }} po
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
