@@ -5,7 +5,7 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/Components/ui/card";
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const form = useForm({
     name: '',
@@ -23,14 +23,20 @@ const generateCharacter = () => {
     characterGenerated.value = true;
 };
 
+const formIsValid = computed(() => {
+    return form.name.trim() !== '' && characterGenerated.value;
+});
+
 const submit = () => {
-    form.post(route('characters.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-            characterGenerated.value = false;
-        },
-    });
+    if (formIsValid.value) {
+        form.post(route('characters.store'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                form.reset();
+                characterGenerated.value = false;
+            },
+        });
+    }
 };
 </script>
 
@@ -72,7 +78,7 @@ const submit = () => {
                     <Button @click="generateCharacter" type="button" variant="secondary">
                         {{ characterGenerated ? 'Relancer les caractéristiques' : 'Générer les caractéristiques' }}
                     </Button>
-                    <Button @click="submit" type="submit" :disabled="!characterGenerated">Créer le personnage</Button>
+                    <Button @click="submit" type="submit" :disabled="!formIsValid">Créer le personnage</Button>
                 </CardFooter>
             </div>
         </div>

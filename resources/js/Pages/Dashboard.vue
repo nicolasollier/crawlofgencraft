@@ -96,7 +96,7 @@ const submitMessage = () => {
                         <div v-if="inventory.length === 0">
                             <p class="text-zinc-500 text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
                         </div>
-                        <div v-else class="max-h-[300px] overflow-y-auto pr-2 space-y-2">
+                        <div v-else class="max-h-[300px] overflow-y-auto pr-4 space-y-2 inventory-scrollbar">
                             <div v-for="item in inventory" :key="item.id"
                                 class="bg-white p-3 rounded-md border border-zinc-200">
                                 <div class="flex justify-between items-start">
@@ -137,3 +137,23 @@ const submitMessage = () => {
         </div>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.inventory-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #27272a transparent;
+}
+
+.inventory-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inventory-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.inventory-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #27272a;
+    border-radius: 0;
+}
+</style>
