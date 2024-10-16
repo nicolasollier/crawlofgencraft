@@ -20,8 +20,6 @@ const character = props.characters[0];
 const noCharacters = !character;
 const inventory = character ? character.inventory.map(entry => entry.item) : [];
 
-const cardHovered = ref(false)
-
 const submitMessage = () => {
     console.log("Sending message:", userMessage.value);
     userMessage.value = "";
@@ -33,14 +31,13 @@ const submitMessage = () => {
         <div v-if="noCharacters" class="flex flex-col h-full">
             <div class="flex-grow bg-zinc-100 flex justify-center items-center rounded-md">
                 <div @mouseover="cardHovered = true" @mouseleave="cardHovered = false"
-                    class="w-full max-w-2xl text-center rounded-md p-8 border border-border bg-white shadow-sm transition-all duration-200 ease-in-out hover:shadow-md">
+                    class="w-full max-w-2xl text-center rounded-md p-8 border border-border bg-white">
                     <h2 class="text-3xl font-bold tracking-tight mb-1">Pas encore de personnage ?</h2>
                     <p class="text-muted-foreground text-md">
                         Créez votre premier héros et commencez votre aventure !
                     </p>
 
                     <img class="mx-auto mt-6 w-full max-w-sm object-cover opacity-75 transition-all duration-300 ease-in-out"
-                        :class="{ 'grayscale': !cardHovered }"
                         src="https://res.cloudinary.com/dnqqx8hbb/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1729084611/empty_placeholder_xfxhgx.png"
                         alt="Créez votre personnage" />
 
@@ -101,7 +98,10 @@ const submitMessage = () => {
                         Inventaire
                     </legend>
                     <div class="flex-grow overflow-y-auto pr-2">
-                        <div v-for="item in inventory" :key="item.id"
+                        <div v-if="inventory.length === 0">
+                            <p class="text-muted-foreground text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
+                        </div>
+                        <div v-else v-for="item in inventory" :key="item.id"
                             class="bg-white p-3 mb-2 last:mb-0 rounded-md shadow-sm">
                             <div class="flex justify-between items-start">
                                 <h3 class="text-base font-semibold">{{ item.name }}</h3>
