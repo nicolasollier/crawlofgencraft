@@ -72,6 +72,10 @@ const submitMessage = () => {
                                 <Label for="mana">Mana</Label>
                                 <Input id="mana" v-model="character.mana" type="number" placeholder="100" disabled />
                             </div>
+                            <div class="grid gap-3">
+                                <Label for="gold">Gold</Label>
+                                <Input id="gold" v-model="character.gold" type="number" placeholder="0" disabled />
+                            </div>
                         </div>
                     </fieldset>
                 </form>
