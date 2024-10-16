@@ -1,27 +1,17 @@
 <script setup>
-import { ref } from "vue";
 import {
     SquareTerminal,
     Triangle,
 } from "lucide-vue-next";
 
+import { usePage } from '@inertiajs/vue3';
+
 import Button from "@/Components/ui/button/Button.vue";
-import Input from "@/Components/ui/input/Input.vue";
-import Badge from "@/Components/ui/badge/Badge.vue";
-import Label from "@/Components/ui/label/Label.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";
 
-const character_name = ref("");
-const health = ref(100);
-const mana = ref(100);
-const userMessage = ref("");
-
-const submitMessage = () => {
-    // Implement message submission logic here
-    console.log("Sending message:", userMessage.value);
-    userMessage.value = "";
-};
+const page = usePage();
+const userPseudo = page.props.auth.user.pseudo;
 </script>
 
 <template>
@@ -46,48 +36,12 @@ const submitMessage = () => {
             <div class="flex flex-col">
                 <!-- Header -->
                 <header class="sticky top-0 z-10 flex h-[53px] items-center gap-1 border-b bg-background px-4">
-                    <h1 class="text-xl font-semibold">Playground</h1>
+                    <h1 class="text-xl font-semibold">{{ userPseudo }}</h1>
                 </header>
 
-                <!-- Main content area -->
-                <main class="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
-                    <div class="relative hidden flex-col items-start gap-8 md:flex">
-                        <form class="grid w-full items-start gap-6">
-                            <!-- Character fieldset -->
-                            <fieldset class="grid gap-6 rounded-lg border p-4">
-                                <legend class="-ml-1 px-1 text-sm font-medium">
-                                    Fiche de personnage
-                                </legend>
-                                <div class="grid gap-3">
-                                    <Label for="character_name">Nom</Label>
-                                    <Input id="character_name" v-model="character_name" type="text" placeholder="John Doe" />
-                                </div>
-                                <div class="grid grid-col gap-4">
-                                    <div class="grid gap-3">
-                                        <Label for="health">PV</Label>
-                                        <Input id="health" v-model="health" type="number" placeholder="100" disabled />
-                                    </div>
-                                    <div class="grid gap-3">
-                                        <Label for="mana">Mana</Label>
-                                        <Input id="mana" v-model="mana" type="number" placeholder="100" disabled />
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-
-                    <!-- Right column (output and input) -->
-                    <div class="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
-                        <Badge variant="outline" class="absolute right-3 top-3">Output</Badge>
-                        <div class="flex-1">
-                            <!-- Output content goes here -->
-                        </div>
-                        <form @submit.prevent="submitMessage"
-                            class="relative overflow-hidden">
-                            <Label for="answer" class="sr-only">Answer</Label>
-                            <!-- Buttons for choice will go here -->
-                        </form>
-                    </div>
+                <!-- Main Content -->
+                <main class="flex-1 overflow-auto p-4 bg-zinc-100">
+                    <slot></slot>
                 </main>
             </div>
         </div>
