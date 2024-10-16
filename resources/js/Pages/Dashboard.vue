@@ -67,8 +67,8 @@ const submitMessage = () => {
                             <div class="flex items-center gap-2">
                                 <Heart class="w-4 h-4 text-zinc-800" />
                                 <div class="flex-grow">
-                                    <div class="h-2 bg-zinc-200 rounded-full overflow-hidden">
-                                        <div class="h-full bg-zinc-800 rounded-full"
+                                    <div class="h-2 bg-zinc-100 overflow-hidden">
+                                        <div class="h-full bg-zinc-800"
                                             :style="{ width: `${(character.hp / 100) * 100}%` }">
                                         </div>
                                     </div>
@@ -77,8 +77,8 @@ const submitMessage = () => {
                             <div class="flex items-center gap-2">
                                 <Zap class="w-4 h-4 text-zinc-800" />
                                 <div class="flex-grow">
-                                    <div class="h-2 bg-zinc-200 rounded-full overflow-hidden">
-                                        <div class="h-full bg-zinc-800 rounded-full"
+                                    <div class="h-2 bg-zinc-100 overflow-hidden">
+                                        <div class="h-full bg-zinc-800"
                                             :style="{ width: `${(character.mana / 100) * 100}%` }"></div>
                                     </div>
                                 </div>
