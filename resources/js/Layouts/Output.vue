@@ -56,7 +56,7 @@ const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu
                 </div>
             </div>
 
-            <img class="mx-auto mb-10 w-full max-w-sm object-cover opacity-75"
+            <img class="mx-auto mb-10 w-full max-w-sm object-cover opacity-85"
                 src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
                 alt="Créez votre donjon" draggable="false" />
 
