@@ -40,7 +40,7 @@ onMounted(() => {
                         Créez votre premier héros et commencez votre aventure !
                     </p>
 
-                    <img class="mx-auto mt-6 w-full max-w-sm object-cover opacity-75 transition-all duration-300 ease-in-out"
+                    <img class="mx-auto mt-6 w-full max-w-sm object-cover opacity-90 transition-all duration-300 ease-in-out"
                         src="https://res.cloudinary.com/dnqqx8hbb/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1729084611/empty_placeholder_xfxhgx.png"
                         alt="Créez votre personnage" />
 

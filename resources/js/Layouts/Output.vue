@@ -6,6 +6,7 @@ import { useDungeonStore } from '@/stores/dungeonStore';
 import { ref, computed } from 'vue';
 import { PlusCircle } from "lucide-vue-next";
 import { Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 
 const dungeonStore = useDungeonStore();
 const userMessage = ref('');
@@ -18,11 +19,6 @@ const dungeonSizes = [
     { value: 'large', label: 'Grand' },
 ];
 
-const submitMessage = () => {
-    console.log("Sending message:", userMessage.value);
-    userMessage.value = "";
-};
-
 const messages = ref([
     { type: 'system', content: 'Bienvenue dans le donjon !' },
     { type: 'player', content: 'Je regarde autour de moi.' },
@@ -30,13 +26,27 @@ const messages = ref([
 ]);
 
 const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu\'un ?"']);
+
+const form = useForm({
+    size: dungeonSize.value,
+});
+
+const createDungeon = () => {
+    form.size = dungeonSize.value;
+    form.post(route('dungeon.create'), {
+        preserveScroll: true,
+        onSuccess: (response) => {
+            dungeonStore.setCurrentDungeon(response.data);
+        },
+    });
+};
 </script>
 
 <template>
     <div class="relative flex flex-col h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
         <Badge variant="outline" class="absolute hidden md:block right-3 top-3">Output</Badge>
 
-        <div v-if="!currentDungeon" class="flex flex-col h-full justify-center items-center">
+        <div v-if="!currentDungeon && !dungeonStore.currentDungeon" class="flex flex-col h-full justify-center items-center">
             <div class="text-center flex flex-col items-center">
                 <h2 class="text-3xl font-bold tracking-tight mb-1">Pas encore de donjon ?</h2>
                 <p class="text-muted-foreground text-md mb-6">
@@ -60,18 +70,16 @@ const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu
                 src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
                 alt="Créez votre donjon" draggable="false" />
 
-            <Link>
-            <Button size="lg">
+            <Button size="lg" @click.prevent="createDungeon">
                 <PlusCircle class="mr-2 h-5 w-5" />
                 Créer un donjon
             </Button>
-            </Link>
         </div>
 
         <div v-else class="flex flex-col h-full">
             <div class="flex-1 overflow-y-auto mb-4 space-y-4">
                 <div class="text-xl font-bold mb-4">
-                    {{ currentDungeon.name }}
+                    {{ (currentDungeon || dungeonStore.currentDungeon).name }}
                 </div>
 
                 <div v-for="(message, index) in messages" :key="index"
@@ -85,13 +93,6 @@ const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu
                     <Button v-for="choice in choices" :key="choice" variant="outline" @click="userMessage = choice">
                         {{ choice }}
                     </Button>
-                </div>
-
-                <div class="flex space-x-2">
-                    <input id="answer" v-model="userMessage"
-                        class="flex-1 min-w-0 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        placeholder="Tapez votre message ici..." />
-                    <Button type="submit">Envoyer</Button>
                 </div>
             </form>
         </div>
