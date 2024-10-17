@@ -2,11 +2,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CharacterInfos from '@/Layouts/CharacterInfos.vue';
 import { Link } from '@inertiajs/vue3';
-import Badge from "@/Components/ui/badge/Badge.vue";
-import Label from "@/Components/ui/label/Label.vue";
+import Output from '@/Layouts/Output.vue';
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
 import { useCharacterStore } from '@/stores/characterStore';
+import { useDungeonStore } from '@/stores/dungeonStore';
 import { onMounted } from 'vue';
 
 const props = defineProps({
@@ -14,18 +14,19 @@ const props = defineProps({
         type: Array,
         required: true,
     },
+    dungeons: {
+        type: Array,
+        required: true,
+    },
 });
 
 const characterStore = useCharacterStore();
+const dungeonStore = useDungeonStore();
 
 onMounted(() => {
     characterStore.setCharacters(props.characters);
+    dungeonStore.setDungeons(props.dungeons);
 });
-
-const submitMessage = () => {
-    console.log("Sending message:", userMessage.value);
-    userMessage.value = "";
-};
 </script>
 
 <template>
@@ -55,18 +56,7 @@ const submitMessage = () => {
 
         <div v-else class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
             <CharacterInfos />
-
-            <!-- Right column (output and input) -->
-            <div class="relative flex flex-col md:h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
-                <Badge variant="outline" class="absolute right-3 top-3">Output</Badge>
-                <div class="flex-1 overflow-y-auto">
-                    <!-- Output content goes here -->
-                </div>
-                <form @submit.prevent="submitMessage" class="relative mt-4">
-                    <Label for="answer" class="sr-only">Answer</Label>
-                    <!-- Buttons for choice will go here -->
-                </form>
-            </div>
+            <Output />
         </div>
     </AuthenticatedLayout>
 </template>

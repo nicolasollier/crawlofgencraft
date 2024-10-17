@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Dungeon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -10,11 +11,14 @@ class DashboardController extends Controller
 {
     public function index(): Response
     {
-        $user = Auth::user()->load(relations: 'characters.inventory.item');
+        $user = Auth::user()->load(['characters.inventory.item', 'characters.dungeon']);
         $characters = $user->characters;
 
-        return Inertia::render(component: 'Dashboard', props: [
+        $dungeons = $characters->pluck('dungeon')->filter()->values();
+
+        return Inertia::render('Dashboard', [
             'characters' => $characters,
+            'dungeons' => $dungeons,
         ]);
     }
 }

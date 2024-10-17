@@ -1,37 +1,32 @@
 <script setup>
-import {
-    SquareTerminal,
-    Triangle,
-    ChevronDown,
-} from "lucide-vue-next";
 import { usePage } from '@inertiajs/vue3';
+import { storeToRefs } from 'pinia';
+import { SquareTerminal, Triangle, ChevronDown } from "lucide-vue-next";
 import Button from "@/Components/ui/button/Button.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
 import { useCharacterStore } from '@/stores/characterStore';
-import { storeToRefs } from 'pinia';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/Components/ui/dropdown-menu";
+import { useDungeonStore } from '@/stores/dungeonStore';
 
 const page = usePage();
 const userPseudo = page.props.auth.user.pseudo;
 
 const characterStore = useCharacterStore();
+const dungeonStore = useDungeonStore();
+
 const { characters, currentCharacter } = storeToRefs(characterStore);
+const { dungeons, currentDungeon } = storeToRefs(dungeonStore);
 
 const selectCharacter = (character) => {
     characterStore.setCurrentCharacter(character);
+    dungeonStore.setCurrentDungeon(character.dungeon_id);
 };
 </script>
 
 <template>
     <TooltipProvider>
         <div class="grid h-screen w-full pl-[53px]">
-            <!-- Sidebar -->
             <aside class="fixed inset-y-0 left-0 z-20 flex h-full flex-col border-r">
                 <div class="border-b p-2">
                     <Button variant="outline" size="icon" aria-label="Home">
@@ -51,7 +46,7 @@ const selectCharacter = (character) => {
                 <!-- Header -->
                 <header class="sticky top-0 z-10 flex h-[53px] items-center gap-4 border-b bg-background px-4">
                     <h1 class="text-xl font-semibold">{{ userPseudo }}</h1>
-                    
+
                     <!-- Character Picker -->
                     <DropdownMenu v-if="characters.length > 1">
                         <DropdownMenuTrigger asChild>
