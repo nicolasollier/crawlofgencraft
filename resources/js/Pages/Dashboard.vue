@@ -124,7 +124,7 @@ const submitMessage = () => {
             </div>
 
             <!-- Right column (output and input) -->
-            <div class="relative flex flex-col h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
+            <div class="relative flex flex-col md:h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
                 <Badge variant="outline" class="absolute right-3 top-3">Output</Badge>
                 <div class="flex-1 overflow-y-auto">
                     <!-- Output content goes here -->

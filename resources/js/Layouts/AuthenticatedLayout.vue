@@ -38,7 +38,7 @@ const userPseudo = page.props.auth.user.pseudo;
                 </header>
 
                 <!-- Main Content -->
-                <main class="flex-1 overflow-auto p-4">
+                <main class="flex-1 overflow-auto md:p-4">
                     <slot></slot>
                 </main>
             </div>
