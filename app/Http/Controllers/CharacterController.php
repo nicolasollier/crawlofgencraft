@@ -21,6 +21,7 @@ class CharacterController extends Controller
 
         $character = Character::create([
             'user_id' => Auth::user()->id,
+            'dungeon_id' => null,
             'name' => $validated['name'],
             'hp' => 100,
             'mana' => 100,
@@ -30,15 +31,19 @@ class CharacterController extends Controller
             'intelligence' => $validated['intelligence'],
         ]);
 
-        // Add default items to the character's inventory
+        // Add default items to the character
         $this->addDefaultItems($character);
 
         return redirect()->route('dashboard')->with('success', 'Personnage créé avec succès !');
     }
 
+    public function create()
+    {
+        return Inertia::render('Character/CreateCharacter');
+    }
+
     private function addDefaultItems(Character $character)
     {
-        // Create or find the default items
         $rags = Item::firstOrCreate(
             ['name' => 'Haillons'],
             [

@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Character;
 use App\Models\Item;
 use App\Models\Inventory;
+use App\Models\Dungeon;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

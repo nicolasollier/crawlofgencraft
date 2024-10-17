@@ -11,6 +11,7 @@ class Character extends Model
 
     protected $fillable = [
         'user_id',
+        'dungeon_id',
         'name',
         'hp',
         'mana',
@@ -24,9 +25,14 @@ class Character extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function inventory()
     {
         return $this->hasMany(Inventory::class);
+    }
+
+    public function dungeon()
+    {
+        return $this->hasOne(Dungeon::class);
     }
 }

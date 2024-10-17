@@ -1,49 +1,35 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CharacterController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DungeonController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
+use Inertia\Response;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+// Welcome page route
+Route::get('/', function (): Response {
+    return Inertia::render(component: 'Welcome', props: [
+        'canLogin' => Route::has(name: 'login'),
+        'canRegister' => Route::has(name: 'register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
 });
 
-Route::get('/dashboard', function () {
-    $user = Auth::user();
-    $characters = $user->characters;
-    $characters->load('inventory.item');
+// Authentication required routes
+Route::middleware(['auth', 'verified'])->group(function (): void {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    $characters = $characters->map(function ($character) {
-        if (!$character->inventory) {
-            $character->inventory = collect();
-        }
-        return $character;
-    });
+    // Characters
+    Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
+    Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
 
-    return Inertia::render('Dashboard', [
-        'characters' => $characters,
-        'noCharacters' => $characters->isEmpty(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/characters/create', function () {
-    return Inertia::render('CreateCharacter');
-})->middleware(['auth', 'verified'])->name('characters.create');
-
-Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Dungeons
+    Route::post('/dungeon', [DungeonController::class, 'create'])->name('dungeon.create');
 });
 
+// Include authentication routes
 require __DIR__ . '/auth.php';
