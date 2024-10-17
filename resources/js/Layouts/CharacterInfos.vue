@@ -2,17 +2,11 @@
 import { Heart, Zap, Coins, Shield, Sword } from 'lucide-vue-next';
 import Input from "@/Components/ui/input/Input.vue";
 import Label from "@/Components/ui/label/Label.vue";
+import { useCharacterStore } from '@/stores/characterStore';
+import { storeToRefs } from 'pinia';
 
-const props = defineProps({
-    currentCharacter: {
-        type: Object,
-        required: true,
-    },
-});
-
-const currentCharacter = props.currentCharacter;
-const inventory = currentCharacter ? currentCharacter.inventory.map(entry => entry.item) : [];
-
+const characterStore = useCharacterStore();
+const { currentCharacter, inventory } = storeToRefs(characterStore);
 </script>
 
 <template>

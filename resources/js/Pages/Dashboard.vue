@@ -6,6 +6,8 @@ import Badge from "@/Components/ui/badge/Badge.vue";
 import Label from "@/Components/ui/label/Label.vue";
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
+import { useCharacterStore } from '@/stores/characterStore';
+import { onMounted } from 'vue';
 
 const props = defineProps({
     characters: {
@@ -14,8 +16,11 @@ const props = defineProps({
     },
 });
 
-const currentCharacter = props.characters[0];
-const noCharacters = props.characters.length === 0;
+const characterStore = useCharacterStore();
+
+onMounted(() => {
+    characterStore.setCharacters(props.characters);
+});
 
 const submitMessage = () => {
     console.log("Sending message:", userMessage.value);
@@ -25,7 +30,7 @@ const submitMessage = () => {
 
 <template>
     <AuthenticatedLayout>
-        <div v-if="noCharacters" class="flex flex-col h-full">
+        <div v-if="!characterStore.hasCharacters" class="flex flex-col h-full">
             <div class="flex-grow bg-zinc-100 flex justify-center items-center rounded-md">
                 <div @mouseover="cardHovered = true" @mouseleave="cardHovered = false"
                     class="w-full max-w-2xl text-center rounded-md p-8 border border-border bg-white">
@@ -49,7 +54,7 @@ const submitMessage = () => {
         </div>
 
         <div v-else class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
-            <CharacterInfos :currentCharacter="currentCharacter" />
+            <CharacterInfos />
 
             <!-- Right column (output and input) -->
             <div class="relative flex flex-col md:h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
