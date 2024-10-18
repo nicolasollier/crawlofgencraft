@@ -11,7 +11,6 @@ class Character extends Model
 
     protected $fillable = [
         'user_id',
-        'dungeon_id',
         'name',
         'hp',
         'mana',
