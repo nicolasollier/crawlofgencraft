@@ -54,7 +54,7 @@ const submitMessage = () => {
     <div class="relative flex flex-col h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
         <Badge variant="outline" class="absolute hidden md:block right-3 top-3">Output</Badge>
 
-        <div v-if="!hasDungeons" class="flex flex-col h-full justify-center items-center">
+        <div v-if="!hasDungeons || !currentDungeon" class="flex flex-col h-full justify-center items-center">
             <div class="text-center flex flex-col items-center">
                 <h2 class="text-3xl font-bold tracking-tight mb-1">Pas encore de donjon ?</h2>
                 <p class="text-muted-foreground text-md mb-6">

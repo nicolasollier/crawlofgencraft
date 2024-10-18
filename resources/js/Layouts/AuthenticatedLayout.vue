@@ -16,11 +16,10 @@ const characterStore = useCharacterStore();
 const dungeonStore = useDungeonStore();
 
 const { characters, currentCharacter } = storeToRefs(characterStore);
-const { dungeons, currentDungeon } = storeToRefs(dungeonStore);
 
 const selectCharacter = (character) => {
     characterStore.setCurrentCharacter(character);
-    dungeonStore.setCurrentDungeon(character.dungeon_id);
+    dungeonStore.setCurrentDungeon(character.dungeon);
 };
 </script>
 
