@@ -55,7 +55,7 @@ const { currentCharacter, inventory } = storeToRefs(characterStore);
                 <div v-if="inventory.length === 0">
                     <p class="text-zinc-500 text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
                 </div>
-                <div v-else class="max-h-[300px] overflow-y-auto pr-4 space-y-2 inventory-scrollbar">
+                <div v-else class="max-h-[420px] overflow-y-auto pr-4 space-y-2 inventory-scrollbar">
                     <div v-for="item in inventory" :key="item.id"
                         class="bg-white p-3 rounded-md border border-zinc-200">
                         <div class="flex justify-between items-start">
