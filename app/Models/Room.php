@@ -36,7 +36,6 @@ class Room extends Model
         return [
             'description' => "Vous entrez dans une salle mystérieuse. Les murs sont couverts de symboles anciens et une légère brume flotte dans l'air.",
             'options' => ['Examiner les symboles', 'Avancer prudemment', 'Retourner en arrière'],
-            'item_change' => null,
             'health_change' => 0,
         ];
     }
