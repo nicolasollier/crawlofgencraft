@@ -3,15 +3,17 @@ import Badge from "@/Components/ui/badge/Badge.vue";
 import Button from "@/Components/ui/button/Button.vue";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import { useDungeonStore } from '@/stores/dungeonStore';
+import { useCharacterStore } from '@/stores/characterStore';
 import { ref, computed } from 'vue';
 import { PlusCircle } from "lucide-vue-next";
-import { Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
+import { storeToRefs } from 'pinia';
 
 const dungeonStore = useDungeonStore();
+const { currentDungeon, hasDungeons } = storeToRefs(dungeonStore);
+const characterStore = useCharacterStore();
 const userMessage = ref('');
 
-const currentDungeon = computed(() => dungeonStore.currentDungeon);
 const dungeonSize = ref('medium');
 const dungeonSizes = [
     { value: 'small', label: 'Petit' },
@@ -29,16 +31,22 @@ const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu
 
 const form = useForm({
     size: dungeonSize.value,
+    character_id: computed(() => characterStore.currentCharacter?.id),
 });
 
 const createDungeon = () => {
-    form.size = dungeonSize.value;
     form.post(route('dungeon.create'), {
         preserveScroll: true,
         onSuccess: (response) => {
+            dungeonStore.addDungeon(response.data);
             dungeonStore.setCurrentDungeon(response.data);
         },
     });
+};
+
+const submitMessage = () => {
+    // Implement message submission logic here
+    console.log(userMessage.value);
 };
 </script>
 
@@ -46,7 +54,7 @@ const createDungeon = () => {
     <div class="relative flex flex-col h-full rounded-xl bg-muted/50 p-4 lg:col-span-2 overflow-hidden">
         <Badge variant="outline" class="absolute hidden md:block right-3 top-3">Output</Badge>
 
-        <div v-if="!currentDungeon && !dungeonStore.currentDungeon" class="flex flex-col h-full justify-center items-center">
+        <div v-if="!hasDungeons" class="flex flex-col h-full justify-center items-center">
             <div class="text-center flex flex-col items-center">
                 <h2 class="text-3xl font-bold tracking-tight mb-1">Pas encore de donjon ?</h2>
                 <p class="text-muted-foreground text-md mb-6">

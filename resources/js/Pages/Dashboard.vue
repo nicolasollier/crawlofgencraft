@@ -7,7 +7,8 @@ import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
 import { useCharacterStore } from '@/stores/characterStore';
 import { useDungeonStore } from '@/stores/dungeonStore';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
     characters: {
@@ -22,16 +23,25 @@ const props = defineProps({
 
 const characterStore = useCharacterStore();
 const dungeonStore = useDungeonStore();
+const { hasCharacters } = storeToRefs(characterStore);
 
 onMounted(() => {
     characterStore.setCharacters(props.characters);
     dungeonStore.setDungeons(props.dungeons);
 });
+
+watch(() => props.characters, (newCharacters) => {
+    characterStore.setCharacters(newCharacters);
+});
+
+watch(() => props.dungeons, (newDungeons) => {
+    dungeonStore.setDungeons(newDungeons);
+}, { deep: true });
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <div v-if="!characterStore.hasCharacters" class="flex flex-col h-full">
+        <div v-if="!hasCharacters" class="flex flex-col h-full">
             <div class="flex-grow bg-zinc-100 flex justify-center items-center rounded-md">
                 <div @mouseover="cardHovered = true" @mouseleave="cardHovered = false"
                     class="w-full max-w-2xl text-center rounded-md p-8 border border-border bg-white">

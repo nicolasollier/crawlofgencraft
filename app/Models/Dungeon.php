@@ -9,7 +9,7 @@ class Dungeon extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'size', 'room_count'];
+    protected $fillable = ['character_id', 'name', 'size', 'room_count'];
 
     public function rooms()
     {
