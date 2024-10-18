@@ -9,7 +9,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['dungeon_id', 'room_number', 'type', 'description', 'options', 'item_change', 'health_change'];
+    protected $fillable = ['dungeon_id', 'room_number', 'type', 'description', 'options', 'health_change'];
 
     protected $casts = [
         'options' => 'array',
@@ -26,7 +26,6 @@ class Room extends Model
             'type' => $type,
             'description' => $llmResponse['description'],
             'options' => $llmResponse['options'],
-            'item_change' => $llmResponse['item_change'],
             'health_change' => $llmResponse['health_change'],
         ]);
     }
