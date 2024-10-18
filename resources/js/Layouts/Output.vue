@@ -21,14 +21,6 @@ const dungeonSizes = [
     { value: 'large', label: 'Grand' },
 ];
 
-const messages = ref([
-    { type: 'system', content: 'Bienvenue dans le donjon !' },
-    { type: 'player', content: 'Je regarde autour de moi.' },
-    { type: 'system', content: 'Vous vous trouvez dans une salle sombre. Il y a une porte à votre gauche et un coffre à votre droite.' },
-]);
-
-const choices = ref(['Ouvrir la porte', 'Examiner le coffre', 'Crier "Y a quelqu\'un ?"']);
-
 const form = useForm({
     size: dungeonSize.value,
     character_id: computed(() => characterStore.currentCharacter?.id),
@@ -86,22 +78,10 @@ const submitMessage = () => {
 
         <div v-else class="flex flex-col h-full">
             <div class="flex-1 overflow-y-auto mb-4 space-y-4">
-                <div class="text-xl font-bold mb-4">
-                    {{ (currentDungeon || dungeonStore.currentDungeon).name }}
-                </div>
-
-                <div v-for="(message, index) in messages" :key="index"
-                    :class="{ 'bg-blue-100 p-2 rounded': message.type === 'player', 'bg-gray-100 p-2 rounded': message.type === 'system' }">
-                    {{ message.content }}
-                </div>
             </div>
 
             <form @submit.prevent="submitMessage" class="space-y-4">
-                <div class="flex flex-wrap gap-2">
-                    <Button v-for="choice in choices" :key="choice" variant="outline" @click="userMessage = choice">
-                        {{ choice }}
-                    </Button>
-                </div>
+                <!-- Buttons goes here -->
             </form>
         </div>
     </div>
