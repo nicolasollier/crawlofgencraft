@@ -27,6 +27,14 @@ class DungeonController extends Controller
             'room_count' => 1,
         ]);
 
-        return to_route('dashboard');
+        $dungeon->rooms()->create([
+            'room_number' => 1,
+            'type' => 'start',
+            'description' => 'Vous vous trouvez dans une salle sombre.',
+        ]);
+
+        $dungeon = Dungeon::with('rooms')->find($dungeon->id);
+
+        return to_route('dashboard')->with('dungeon', $dungeon);
     }
 }
