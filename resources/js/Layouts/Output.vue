@@ -13,7 +13,13 @@ const characterStore = useCharacterStore();
 
 const dungeonStore = useDungeonStore();
 const { currentDungeon, hasDungeons } = storeToRefs(dungeonStore);
-const currentRoom = ref(currentDungeon.value.rooms[currentDungeon.value.room_count - 1]);
+
+const currentRoom = computed(() => {
+    if (!currentDungeon.value || !currentDungeon.value.rooms || currentDungeon.value.rooms.length === 0) {
+        return null;
+    }
+    return currentDungeon.value.rooms[currentDungeon.value.room_count];
+});
 
 const userMessage = ref('');
 
@@ -95,43 +101,9 @@ const submitMessage = (action) => {
             </div>
 
             <!-- Simulate big room description here -->
-            <div class="room-description text-sm text-zinc-800">
+            <div class="text-sm text-zinc-800">
                 <p>
-                    Vous pénétrez dans une vaste salle circulaire, dont les murs de pierre ancienne s'élèvent à
-                    plusieurs mètres de hauteur. Des torches vacillantes, fixées à intervalles réguliers, projettent une
-                    lueur orangée qui danse sur les parois humides, créant un jeu d'ombres inquiétant. Le plafond voûté
-                    est orné de fresques complexes, à moitié effacées par le temps, représentant des scènes de batailles
-                    épiques entre des créatures mythiques.
-                </p>
-                <p>
-                    Au centre de la pièce trône une imposante fontaine de marbre noir, dont l'eau sombre et miroitante
-                    semble absorber la lumière environnante. Des murmures indistincts semblent émaner de ses
-                    profondeurs, comme si elle abritait quelque présence ancienne et mystérieuse.
-                </p>
-                <p>
-                    Autour de la fontaine, disposés en cercle, se dressent six piliers massifs gravés de runes
-                    scintillantes. Chaque pilier est surmonté d'une statue représentant un guerrier en armure, leur
-                    regard de pierre fixé sur le centre de la salle dans une garde éternelle.
-                </p>
-                <p>
-                    Le sol est recouvert d'une fine couche de poussière, brisée ça et là par des empreintes de pas
-                    étranges qui ne semblent mener nulle part. Dans les coins de la pièce, des amas d'ossements et de
-                    débris métalliques témoignent des combats passés et des aventuriers moins fortunés.
-                </p>
-                <p>
-                    Trois portes s'ouvrent sur les murs de la salle : l'une à l'est, ornée de joyaux scintillants ; une
-                    autre au nord, bardée de fer et portant des marques de griffures profondes ; et la dernière à
-                    l'ouest, simple en apparence mais dégageant une aura de magie palpable.
-                </p>
-                <p>
-                    L'air est lourd, chargé d'une odeur de pierre humide et d'encens ancien. Un silence oppressant règne
-                    dans la salle, seulement troublé par le clapotis régulier de l'eau de la fontaine et le crépitement
-                    occasionnel des torches.
-                </p>
-                <p>
-                    Alors que vous contemplez la scène, un frisson parcourt votre échine. Vous sentez que chaque choix
-                    dans cette salle pourrait avoir des conséquences importantes sur la suite de votre aventure. Quelle
-                    direction allez-vous prendre ?
+                    {{ currentRoom.description }}
                 </p>
             </div>
 
@@ -141,12 +113,12 @@ const submitMessage = (action) => {
             <!-- Action buttons -->
             <div class="mt-4 space-y-2 sm:space-y-0 sm:space-x-2 sm:flex sm:flex-wrap">
                 <Button
-                  v-for="option in placeholderOptions"
-                  :key="option.value"
-                  @click="submitMessage(option.value)"
+                  v-for="option in currentRoom.options"
+                  :key="option"
+                  @click="submitMessage(option)"
                   class="w-full sm:w-auto"
                 >
-                  {{ option.label }}
+                  {{ option }}
                 </Button>
             </div>
         </div>
