@@ -53,8 +53,6 @@ class DungeonController extends Controller
         $dungeon->save();
         $dungeon = Dungeon::with('rooms')->find($request->dungeon_id);
 
-        return Inertia::render('Dungeon/Progress', [
-            'dungeon' => $dungeon
-        ]);
+        return to_route('dashboard')->with('dungeon', $dungeon);
     }
 }
