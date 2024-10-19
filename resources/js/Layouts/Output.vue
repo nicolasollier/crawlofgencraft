@@ -55,10 +55,14 @@ const createDungeon = () => {
 };
 
 const submitMessage = (action) => {
+    console.log("Old current dungeon:", currentDungeon.value);
     form.post(route('dungeon.progress'), {
         preserveScroll: true,
         onSuccess: (response) => {
-            dungeonStore.updateDungeon(response.data);
+            const updatedDungeon = response.props.dungeons.find(d => d.id === currentDungeon.value.id);
+            if (updatedDungeon) {
+                dungeonStore.setCurrentDungeon(updatedDungeon);
+            }
         },
     });
 };
@@ -145,9 +149,9 @@ onMounted(() => {
 
             <div class="flex-grow"></div>
 
-            <div class="mt-4 space-y-2 sm:space-y-0 sm:space-x-2 sm:flex sm:flex-wrap">
+            <div class="mt-4 grid">
                 <Button v-for="option in currentRoom.options" :key="option" @click="submitMessage(option)"
-                    class="w-full sm:w-auto">
+                    variant="secondary" class="w-full sm:w-auto mt-2">
                     {{ option }}
                 </Button>
             </div>
