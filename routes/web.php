@@ -27,6 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
 
     // Dungeons
     Route::post('/dungeon', [DungeonController::class, 'create'])->name('dungeon.create');
+    Route::post('/dungeon/progress', [DungeonController::class, 'progress'])->name('dungeon.progress');
 });
 
 require __DIR__ . '/auth.php';

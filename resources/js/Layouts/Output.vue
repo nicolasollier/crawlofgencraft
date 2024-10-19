@@ -40,6 +40,7 @@ const dungeonSizes = [
 const form = useForm({
     size: dungeonSize,
     character_id: computed(() => characterStore.currentCharacter?.id),
+    dungeon_id: computed(() => currentDungeon.value?.id),
 });
 
 // Methods
@@ -54,8 +55,12 @@ const createDungeon = () => {
 };
 
 const submitMessage = (action) => {
-    // Implement message submission logic here
-    console.log(action);
+    form.post(route('dungeon.progress'), {
+        preserveScroll: true,
+        onSuccess: (response) => {
+            dungeonStore.updateDungeon(response.data);
+        },
+    });
 };
 
 const typeDescription = (text) => {
@@ -141,12 +146,8 @@ onMounted(() => {
             <div class="flex-grow"></div>
 
             <div class="mt-4 space-y-2 sm:space-y-0 sm:space-x-2 sm:flex sm:flex-wrap">
-                <Button
-                    v-for="option in currentRoom.options"
-                    :key="option"
-                    @click="submitMessage(option)"
-                    class="w-full sm:w-auto"
-                >
+                <Button v-for="option in currentRoom.options" :key="option" @click="submitMessage(option)"
+                    class="w-full sm:w-auto">
                     {{ option }}
                 </Button>
             </div>
@@ -161,8 +162,16 @@ onMounted(() => {
 }
 
 @keyframes blink {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 0; }
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
 </style>

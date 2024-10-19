@@ -36,4 +36,25 @@ class DungeonController extends Controller
 
         return to_route('dashboard')->with('dungeon', $dungeon);
     }
+
+    public function progress(Request $request)
+    {
+        $dungeon = Dungeon::with('rooms')->findOrFail($request->dungeon_id);
+        $dungeon->room_count++;
+
+        $room_types = ['encounter', 'trapped', 'treasure', 'enigma', 'empty'];
+        $random_room_type = $room_types[array_rand($room_types)];
+
+        if ($dungeon->room_count >= $dungeon->rooms->count()) {
+            $newRoom = Room::generate($random_room_type, $dungeon);
+            $dungeon->rooms()->save($newRoom);
+        }
+
+        $dungeon->save();
+        $dungeon = Dungeon::with('rooms')->find($request->dungeon_id);
+
+        return Inertia::render('Dungeon/Progress', [
+            'dungeon' => $dungeon
+        ]);
+    }
 }
