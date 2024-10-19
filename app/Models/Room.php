@@ -73,13 +73,11 @@ class Room extends Model
     {
         switch ($type) {
             case 'encounter':
-                return -rand(10, 20); // Le joueur perd entre 10 et 20 points de vie
-            case 'trap':
-                return -rand(5, 15); // Le joueur perd entre 5 et 15 points de vie
-            case 'rest':
-                return rand(10, 20); // Le joueur gagne entre 10 et 20 points de vie
+                return -rand(10, 20);
+            case 'trapped':
+                return -rand(5, 15);
             default:
-                return 0; // Pas de changement de santé pour les autres types de salles
+                return 0;
         }
     }
 
@@ -87,12 +85,9 @@ class Room extends Model
     {
         switch ($type) {
             case 'treasure':
-                return ['gold' => rand(10, 50)]; // Le joueur gagne entre 10 et 50 pièces d'or
-            case 'item':
-                $items = ['potion', 'sword', 'shield', 'key'];
-                return [$items[array_rand($items)] => 1]; // Le joueur obtient un objet aléatoire
+                return ['gold' => rand(10, 50)];
             default:
-                return []; // Pas de changement d'inventaire pour les autres types de salles
+                return [];
         }
     }
 }
