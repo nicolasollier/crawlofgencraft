@@ -55,7 +55,6 @@ const createDungeon = () => {
 };
 
 const submitMessage = (action) => {
-    console.log("Old current dungeon:", currentDungeon.value);
     form.post(route('dungeon.progress'), {
         preserveScroll: true,
         onSuccess: (response) => {
