@@ -24,8 +24,10 @@ const currentRoom = computed(() => {
 });
 
 // Reactive refs
+const isLoading = ref(false);
 const dungeonSize = ref('medium');
 const typedDescription = ref('');
+const showButtons = ref(false);
 const isTyping = ref(false);
 
 // Constants
@@ -45,16 +47,23 @@ const form = useForm({
 
 // Methods
 const createDungeon = () => {
+    isLoading.value = true;
     form.post(route('dungeon.create'), {
         preserveScroll: true,
         onSuccess: (response) => {
             dungeonStore.addDungeon(response.data);
             dungeonStore.setCurrentDungeon(response.data);
+            isLoading.value = false;
+        },
+        onError: () => {
+            isLoading.value = false;
         },
     });
 };
 
 const submitMessage = (action) => {
+    isLoading.value = true;
+    showButtons.value = false;
     form.action = action;
     form.post(route('dungeon.progress'), {
         preserveScroll: true,
@@ -63,6 +72,10 @@ const submitMessage = (action) => {
             if (updatedDungeon) {
                 dungeonStore.setCurrentDungeon(updatedDungeon);
             }
+            isLoading.value = false;
+        },
+        onError: () => {
+            isLoading.value = false;
         },
     });
 };
@@ -73,11 +86,13 @@ const typeDescription = (text) => {
     let index = 0;
     const interval = setInterval(() => {
         if (index < text.length) {
+            showButtons.value = true;
             typedDescription.value += text[index];
             index++;
         } else {
             clearInterval(interval);
             isTyping.value = false;
+            showButtons.value = false;
         }
     }, 30);
 };
@@ -107,7 +122,7 @@ onMounted(() => {
                     Créez votre premier donjon et commencez votre aventure !
                 </p>
                 <div class="mb-4">
-                    <Select v-model="dungeonSize">
+                    <Select v-model="dungeonSize" :disabled="isLoading">
                         <SelectTrigger class="w-48 mb-2">
                             <SelectValue placeholder="Taille du donjon" />
                         </SelectTrigger>
@@ -124,9 +139,9 @@ onMounted(() => {
                 src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
                 alt="Créez votre donjon" draggable="false" />
 
-            <Button size="lg" @click.prevent="createDungeon">
+            <Button size="lg" @click.prevent="createDungeon" :disabled="isLoading">
                 <PlusCircle class="mr-2 h-5 w-5" />
-                Créer un donjon
+                {{ isLoading ? 'Création...' : 'Créer un donjon' }}
             </Button>
         </div>
 
@@ -150,8 +165,19 @@ onMounted(() => {
             <div class="flex-grow"></div>
 
             <div class="mt-4 grid">
-                <Button v-for="option in currentRoom.options" :key="option" @click="submitMessage(option)"
-                    variant="secondary" class="w-full sm:w-auto mt-2">
+                <Button 
+                    v-for="(option, index) in currentRoom.options" 
+                    :key="option" 
+                    @click="submitMessage(option)"
+                    variant="secondary" 
+                    class="w-full sm:w-auto mt-2 transition-opacity duration-500 ease-in-out"
+                    :class="{
+                        'opacity-0 pointer-events-none': showButtons || isLoading,
+                        'opacity-100 pointer-events-auto': !showButtons && !isLoading
+                    }" 
+                    :style="{ transitionDelay: `${index * 200}ms` }"
+                    :disabled="isLoading"
+                >
                     {{ option }}
                 </Button>
             </div>
