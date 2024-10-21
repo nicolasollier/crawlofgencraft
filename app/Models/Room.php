@@ -17,10 +17,10 @@ class Room extends Model
         'item_change' => 'array',
     ];
 
-    public static function generate(string $type, Dungeon $dungeon)
+    public static function generate(string $type, Dungeon $dungeon, string $player_action = null)
     {
         $openAIService = new OpenAIService();
-        $llmResponse = $openAIService->generateRoomDescription($type);
+        $llmResponse = $openAIService->generateRoomDescription($type, $player_action);
 
         $healthChange = self::calculateHealthChange($type);
         $itemChange = self::calculateItemChange($type);

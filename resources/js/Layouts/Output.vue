@@ -24,7 +24,6 @@ const currentRoom = computed(() => {
 });
 
 // Reactive refs
-const userMessage = ref('');
 const dungeonSize = ref('medium');
 const typedDescription = ref('');
 const isTyping = ref(false);
@@ -41,6 +40,7 @@ const form = useForm({
     size: dungeonSize,
     character_id: computed(() => characterStore.currentCharacter?.id),
     dungeon_id: computed(() => currentDungeon.value?.id),
+    action: null,
 });
 
 // Methods
@@ -55,6 +55,7 @@ const createDungeon = () => {
 };
 
 const submitMessage = (action) => {
+    form.action = action;
     form.post(route('dungeon.progress'), {
         preserveScroll: true,
         onSuccess: (response) => {
