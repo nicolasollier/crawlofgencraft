@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\OpenAIService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\PromptService;
 
 class Room extends Model
 {
@@ -19,8 +20,11 @@ class Room extends Model
 
     public static function generate(string $type, Dungeon $dungeon, string $player_action = null)
     {
-        $openAIService = new OpenAIService();
-        $llmResponse = $openAIService->generateRoomDescription($type, $player_action);
+        $promptService = new PromptService();
+        $openAIService = new OpenAIService($promptService);
+
+        $description = $openAIService->generateRoomDescription($type, $player_action);
+        $options = $openAIService->generateRoomOptions($type, $description['description']);
 
         $healthChange = self::calculateHealthChange($type);
         $itemChange = self::calculateItemChange($type);
@@ -29,8 +33,8 @@ class Room extends Model
             'dungeon_id' => $dungeon->id,
             'room_number' => $dungeon->room_count + 1,
             'type' => $type,
-            'description' => $llmResponse['description'],
-            'options' => $llmResponse['options'],
+            'description' => $description['description'],
+            'options' => $options['options'],
             'health_change' => $healthChange,
             'item_change' => $itemChange,
         ]);
