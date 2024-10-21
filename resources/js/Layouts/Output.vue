@@ -1,5 +1,4 @@
 <script setup>
-import Badge from "@/Components/ui/badge/Badge.vue";
 import Button from "@/Components/ui/button/Button.vue";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import { PlusCircle, Castle } from "lucide-vue-next";
