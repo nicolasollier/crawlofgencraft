@@ -10,7 +10,7 @@ class PromptService
     {
         $basePrompt = "Vous êtes un maître de donjon chargé de générer une description immersive pour une salle de donjon. ";
         $typePrompt = "La salle actuelle est de type : {$type}. ";
-        $descriptionInstructions = "Créez une description détaillée et atmosphérique pour cette salle qui correspond à son type. Incluez des détails sensoriels et des éléments qui suggèrent des possibilités d'action sans les expliciter. ";
+        $descriptionInstructions = "Créez une description détaillée et atmosphérique pour cette salle qui correspond à son type. Incluez des détails sensoriels et des éléments qui suggèrent des possibilités d'action sans les expliciter. A la fin de la description, indiquez entre 3 sorties vers la prochaine salle possible.";
 
         $rules = "Règles à suivre :
         1. La description doit correspondre au type de salle '{$type}'.
@@ -29,7 +29,7 @@ class PromptService
 
     public function getRoomOptionsPrompt(string $type, string $description): string
     {
-        $basePrompt = "Vous êtes un maître de donjon chargé de générer des options courtes d'action pour un joueur dans une salle de donjon. ";
+        $basePrompt = "Vous êtes un maître de donjon chargé de générer des options courtes d'action pour un joueur dans une salle de donjon. Le joueur ne peut pas rebrousser chemin.";
         $typePrompt = "La salle actuelle est de type : {$type}. ";
         $descriptionPrompt = "Voici la description de la salle : {$description} ";
         $optionsInstructions = "Générez exactement quatre options courtes d'environ 4 mots pour le joueur. ";
@@ -38,7 +38,7 @@ class PromptService
         1. Chaque option DOIT explicitement mentionner le déplacement vers une nouvelle salle ou zone.
         2. Les actions qui n'impliquent pas de déplacement vers une nouvelle salle sont strictement interdites.
         3. Les options doivent être cohérentes avec le type de salle et surtout ce que le joueur à pu lire dans la description.
-        4. Soyez créatif mais concis dans les options proposées. N'indique pas les points cardinaux ou les directions. ";
+        4. Les options doivent être courtes et concises.";
 
         $examplePrompt = "Exemple de structure :
         1. Franchir la porte pour entrer dans la salle suivante
@@ -52,7 +52,7 @@ class PromptService
         3. Examiner à la recherche d'objets dans la salle
         4. Ouvrir le coffre";
 
-        $formatPrompt = "Générez une réponse JSON avec la structure suivante : {\"options\": [\"option1\", \"option2\", \"option3\", \"option4\"]}. ";
+        $formatPrompt = "Générez une réponse JSON avec la structure suivante : {\"options\": [\"option1\", \"option2\", \"option3\"]}. ";
 
         return $basePrompt . $typePrompt . $descriptionPrompt . $optionsInstructions . $rules . $examplePrompt . $forbiddenActions . $formatPrompt;
     }
