@@ -38,7 +38,7 @@ class PromptService
         1. Chaque option DOIT explicitement mentionner le déplacement vers une nouvelle salle ou zone.
         2. Les actions qui n'impliquent pas de déplacement vers une nouvelle salle sont strictement interdites.
         3. Les options doivent être cohérentes avec le type de salle et surtout ce que le joueur à pu lire dans la description.
-        4. Soyez créatif mais concis dans les options proposées. ";
+        4. Soyez créatif mais concis dans les options proposées. N'indique pas les points cardinaux ou les directions. ";
 
         $examplePrompt = "Exemple de structure :
         1. Franchir la porte pour entrer dans la salle suivante
