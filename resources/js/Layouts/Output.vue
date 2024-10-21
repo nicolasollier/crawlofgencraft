@@ -23,6 +23,10 @@ const currentRoom = computed(() => {
     return currentDungeon.value.rooms[currentDungeon.value.room_count];
 });
 
+const currentRoomType = computed(() => {
+    return roomTypes.find(type => type.value === currentRoom.value.type)?.label;
+});
+
 // Reactive refs
 const isLoading = ref(false);
 const dungeonSize = ref('medium');
@@ -35,6 +39,16 @@ const dungeonSizes = [
     { value: 'small', label: 'Petit' },
     { value: 'medium', label: 'Moyen' },
     { value: 'large', label: 'Grand' },
+];
+
+const roomTypes = [
+    {value: 'start', label: 'Entrée'},
+    {value: 'encounter', label: 'Combat'},
+    {value: 'trapped', label: 'Piège'},
+    {value: 'treasure', label: 'Trésor'},
+    {value: 'enigma', label: 'Enigme'},
+    {value: 'empty', label: 'Vide'},
+    {value: 'exit', label: 'Sortie'},
 ];
 
 // Form setup
@@ -154,6 +168,8 @@ onMounted(() => {
                 </span>
                 <span class="inline text-zinc-400">|</span>
                 <span class="text-zinc-800 font-semibold">Salle {{ currentRoom.room_number }}</span>
+                <span class="inline text-zinc-400">|</span>
+                <span class="text-zinc-800 font-semibold">{{ currentRoomType }}</span>
             </div>
 
             <div class="text-sm text-zinc-800">
