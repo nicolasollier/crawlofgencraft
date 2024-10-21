@@ -11,11 +11,10 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['dungeon_id', 'room_number', 'type', 'description', 'options', 'health_change', 'item_change'];
+    protected $fillable = ['dungeon_id', 'room_number', 'type', 'description', 'options'];
 
     protected $casts = [
         'options' => 'array',
-        'item_change' => 'array',
     ];
 
     public static function generate(string $type, Dungeon $dungeon, string $player_action = null)
@@ -26,39 +25,12 @@ class Room extends Model
         $description = $openAIService->generateRoomDescription($type, $player_action);
         $options = $openAIService->generateRoomOptions($type, $description['description']);
 
-        $healthChange = self::calculateHealthChange($type);
-        $itemChange = self::calculateItemChange($type);
-
         return new self([
             'dungeon_id' => $dungeon->id,
             'room_number' => $dungeon->room_count + 1,
             'type' => $type,
             'description' => $description['description'],
             'options' => $options['options'],
-            'health_change' => $healthChange,
-            'item_change' => $itemChange,
         ]);
-    }
-
-    private static function calculateHealthChange(string $type): int
-    {
-        switch ($type) {
-            case 'encounter':
-                return -rand(10, 20);
-            case 'trapped':
-                return -rand(5, 15);
-            default:
-                return 0;
-        }
-    }
-
-    private static function calculateItemChange(string $type): array
-    {
-        switch ($type) {
-            case 'treasure':
-                return ['gold' => rand(10, 50)];
-            default:
-                return [];
-        }
     }
 }

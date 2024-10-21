@@ -15,8 +15,6 @@ class CreateRoomsTable extends Migration
             $table->enum('type', ['start', 'encounter', 'trapped', 'treasure', 'enigma', 'empty', 'exit']);
             $table->text('description');
             $table->json('options')->nullable();
-            $table->integer('health_change')->default(0);
-            $table->json('item_change')->nullable();
             $table->timestamps();
         });
     }
