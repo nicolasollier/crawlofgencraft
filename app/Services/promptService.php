@@ -37,7 +37,7 @@ class PromptService
         $rules = "Règles à suivre :
         1. Chaque option DOIT explicitement mentionner le déplacement vers une nouvelle salle ou zone.
         2. Les actions qui n'impliquent pas de déplacement vers une nouvelle salle sont strictement interdites.
-        3. Les options doivent être cohérentes avec le type de salle et sa description.
+        3. Les options doivent être cohérentes avec le type de salle et surtout ce que le joueur à pu lire dans la description.
         4. Soyez créatif mais concis dans les options proposées. ";
 
         $examplePrompt = "Exemple de structure :
