@@ -32,7 +32,7 @@ class PromptService
         $basePrompt = "Vous êtes un maître de donjon chargé de générer des options courtes d'action pour un joueur dans une salle de donjon. ";
         $typePrompt = "La salle actuelle est de type : {$type}. ";
         $descriptionPrompt = "Voici la description de la salle : {$description} ";
-        $optionsInstructions = "Générez exactement quatre options courtes d'action pour le joueur. ";
+        $optionsInstructions = "Générez exactement quatre options courtes d'environ 4 mots pour le joueur. ";
 
         $rules = "Règles à suivre :
         1. Chaque option DOIT explicitement mentionner le déplacement vers une nouvelle salle ou zone.
