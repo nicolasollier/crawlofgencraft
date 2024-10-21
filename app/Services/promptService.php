@@ -10,13 +10,12 @@ class PromptService
     {
         $basePrompt = "Vous êtes un maître de donjon chargé de générer une description immersive pour une salle de donjon. ";
         $typePrompt = "La salle actuelle est de type : {$type}. ";
-        $descriptionInstructions = "Créez une description détaillée et atmosphérique pour cette salle qui correspond à son type. Incluez des détails sensoriels et des éléments qui suggèrent des possibilités d'action sans les expliciter. A la fin de la description, indiquez entre 3 sorties vers la prochaine salle possible.";
+        $descriptionInstructions = "Créez une description détaillée et atmosphérique pour cette salle qui correspond à son type. A la fin de la description, indiquez 3 sorties vers la prochaine salle possible.";
 
         $rules = "Règles à suivre :
         1. La description doit correspondre au type de salle '{$type}'.
         2. Fournissez une description immersive qui reflète le type et le contenu de la salle.
-        3. N'incluez pas d'actions ou de choix spécifiques pour le joueur dans la description.
-        4. Concentrez-vous sur l'ambiance, les détails visuels, les sons, les odeurs, et l'atmosphère générale. ";
+        3. N'incluez pas d'actions ou de choix spécifiques pour le joueur dans la description. ";
 
         $playerActionPrompt = $player_action 
             ? "Prenez en compte l'action précédente du joueur : {$player_action}. Assurez-vous que la nouvelle salle offre une continuité logique avec cette action. "
@@ -29,7 +28,7 @@ class PromptService
 
     public function getRoomOptionsPrompt(string $type, string $description): string
     {
-        $basePrompt = "Vous êtes un maître de donjon chargé de générer des options courtes d'action pour un joueur dans une salle de donjon. Le joueur ne peut pas rebrousser chemin.";
+        $basePrompt = "Vous etes un outils chargé de générer 3 options courtes d'action basée sur des sorties d'une salle pour un joueur dans un donjon. Le joueur ne peut pas rebrousser chemin ou aller en arrière.";
         $typePrompt = "La salle actuelle est de type : {$type}. ";
         $descriptionPrompt = "Voici la description de la salle : {$description} ";
         $optionsInstructions = "Générez exactement quatre options courtes d'environ 4 mots pour le joueur. ";
@@ -37,10 +36,9 @@ class PromptService
         $rules = "Règles à suivre :
         1. Chaque option DOIT explicitement mentionner le déplacement vers une nouvelle salle ou zone.
         2. Les actions qui n'impliquent pas de déplacement vers une nouvelle salle sont strictement interdites.
-        3. Les options doivent être cohérentes avec le type de salle et surtout ce que le joueur à pu lire dans la description.
-        4. Les options doivent être courtes et concises.";
+        3. Ne soit pas créatif, les options doivent être courtes et concises. ";
 
-        $examplePrompt = "Exemple de structure :
+        $examplePrompt = "Exemple d'options' :
         1. Franchir la porte pour entrer dans la salle suivante
         2. Emprunter le passage secret derrière la tapisserie menant à une nouvelle zone
         3. Descendre l'escalier en colimaçon vers le niveau inférieur
@@ -49,8 +47,8 @@ class PromptService
         $forbiddenActions = "Exemple d'actions interdites :
         1. Observer les détails de la salle
         2. Interagir avec les objets de la salle
-        3. Examiner à la recherche d'objets dans la salle
-        4. Ouvrir le coffre";
+        3. Examiner des détails dans la salle
+        4. Ouvrir un coffre ";
 
         $formatPrompt = "Générez une réponse JSON avec la structure suivante : {\"options\": [\"option1\", \"option2\", \"option3\"]}. ";
 
