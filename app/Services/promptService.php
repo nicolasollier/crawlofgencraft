@@ -41,12 +41,12 @@ class PromptService
         4. Soyez créatif mais concis dans les options proposées. ";
 
         $examplePrompt = "Exemple de structure :
-        1. Franchir la porte nord pour entrer dans la salle suivante
+        1. Franchir la porte pour entrer dans la salle suivante
         2. Emprunter le passage secret derrière la tapisserie menant à une nouvelle zone
         3. Descendre l'escalier en colimaçon vers le niveau inférieur
         4. Grimper par la fenêtre pour atteindre une tour adjacente ";
 
-        $forbiddenActions = "Exemeple d'actions interdites :
+        $forbiddenActions = "Exemple d'actions interdites :
         1. Observer les détails de la salle
         2. Interagir avec les objets de la salle
         3. Examiner à la recherche d'objets dans la salle
