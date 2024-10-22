@@ -6,11 +6,12 @@ class PromptService
 {
     private $roomTypes = ['encounter', 'trapped', 'treasure', 'enigma', 'empty'];
 
-    public function getRoomDescriptionPrompt(string $type, ?string $player_action): string
+    public function getRoomDescriptionPrompt(string $type, ?string $player_action, bool $is_success): string
     {
         $basePrompt = "Vous êtes un maître de donjon chargé de générer une description immersive pour une salle de donjon. ";
-        $typePrompt = "La salle actuelle est de type : {$type}. ";
-        $descriptionInstructions = "Créez une description détaillée et atmosphérique pour cette salle qui correspond à son type. A la fin de la description, indiquez 3 sorties vers la prochaine salle possible.";
+        $typePrompt = "La salle actuelle est de type : {$type}.";
+        $successPrompt = $is_success ? "Le joueur a réussi cette pièce." : "Le joueur a échoué cette pièce.";
+        $descriptionInstructions = "Créez une description détaillée de cette salle qui correspond à son type. La réussite ou l'échec du joueur doit obligatoirement influencer la description de manière positive ou négative. Par exemple, si la salle est de type 'encounter', le joueur DOIT perdre ou gagner un combat. Si c'est une salle 'trapped', le joueur DOIT éviter ou déclencher un piège. N'indiquez pas de nombre précis de points de vie perdus ou gagnés. À la fin de la description, mentionnez 3 sorties possibles vers la prochaine salle. ";
 
         $rules = "Règles à suivre :
         1. La description doit correspondre au type de salle '{$type}'.
@@ -23,7 +24,7 @@ class PromptService
 
         $formatPrompt = "Générez une réponse JSON avec la structure suivante : {\"description\": \"text\"}. ";
 
-        return $basePrompt . $typePrompt . $descriptionInstructions . $rules . $playerActionPrompt . $formatPrompt;
+        return $basePrompt . $typePrompt . $successPrompt . $descriptionInstructions . $rules . $playerActionPrompt . $formatPrompt;
     }
 
     public function getRoomOptionsPrompt(string $type, string $description): string

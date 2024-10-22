@@ -28,8 +28,7 @@ class DungeonController extends Controller
             'room_count' => 0,
         ]);
 
-
-        $startRoom = Room::generate('start', $dungeon, null);
+        $startRoom = Room::generate('start', $dungeon, null, true);
         $dungeon->rooms()->save($startRoom);
 
         $dungeon = Dungeon::with('rooms')->find($dungeon->id);
@@ -46,9 +45,15 @@ class DungeonController extends Controller
 
         $room_types = ['encounter', 'trapped', 'treasure', 'enigma', 'empty'];
         $random_room_type = $room_types[array_rand($room_types)];
+        $roomIsSuccess = rand(1, 100) <= 50;
 
         if ($dungeon->room_count >= $dungeon->rooms->count()) {
-            $newRoom = Room::generate($random_room_type, $dungeon, $player_action);
+            $newRoom = Room::generate($random_room_type, $dungeon, $player_action, $roomIsSuccess);
+            $newRoom->handleHealthChange($random_room_type, $roomIsSuccess, $dungeon->character_id);
+
+            $dungeon->rooms()->save($newRoom);
+        } else {
+            $newRoom = Room::generate('exit', $dungeon, $player_action, true);
             $dungeon->rooms()->save($newRoom);
         }
 

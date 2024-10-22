@@ -1,7 +1,7 @@
 <script setup>
 import Button from "@/Components/ui/button/Button.vue";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
-import { PlusCircle, Castle } from "lucide-vue-next";
+import { PlusCircle, Castle, Skull, Sparkles } from "lucide-vue-next";
 import { useForm } from '@inertiajs/vue3';
 import { storeToRefs } from 'pinia';
 import { ref, computed, watch, onMounted } from 'vue';
@@ -168,7 +168,11 @@ onMounted(() => {
                 <span class="inline text-zinc-400">|</span>
                 <span class="text-zinc-800 font-semibold">Salle {{ currentRoom.room_number }}</span>
                 <span class="inline text-zinc-400">|</span>
-                <span class="text-zinc-800 font-semibold">{{ currentRoomType }}</span>
+                <span class="flex items-center text-zinc-800 font-semibold">
+                    <Skull v-if="!currentRoom.is_success" class="inline-block w-4 h-4 mr-1.5" />
+                    <Sparkles v-else class="inline-block w-4 h-4 mr-1.5" />
+                    {{ currentRoomType }}
+                </span>
             </div>
 
             <div class="text-sm text-zinc-800">

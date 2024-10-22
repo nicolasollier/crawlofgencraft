@@ -14,13 +14,13 @@ class OpenAIService
         $this->promptService = $promptService;
     }
 
-    public function generateRoomDescription(string $type, string $player_action = null): array
+    public function generateRoomDescription(string $type, string $player_action = null, bool $is_success): array
     {
         if ($player_action) {
             $player_action = "La salle précédente le joueur a choisi l'option: $player_action.";
         }
 
-        $prompt = $this->promptService->getRoomDescriptionPrompt($type, $player_action);
+        $prompt = $this->promptService->getRoomDescriptionPrompt($type, $player_action, $is_success);
         
 
         $result = OpenAI::chat()->create([
