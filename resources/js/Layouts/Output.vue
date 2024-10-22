@@ -41,18 +41,18 @@ const dungeonSizes = [
 ];
 
 const roomTypes = [
-    {value: 'start', label: 'Entrée'},
-    {value: 'encounter', label: 'Combat'},
-    {value: 'trapped', label: 'Piège'},
-    {value: 'treasure', label: 'Trésor'},
-    {value: 'enigma', label: 'Enigme'},
-    {value: 'empty', label: 'Vide'},
-    {value: 'exit', label: 'Sortie'},
+    { value: 'start', label: 'Entrée' },
+    { value: 'encounter', label: 'Combat' },
+    { value: 'trapped', label: 'Piège' },
+    { value: 'treasure', label: 'Trésor' },
+    { value: 'enigma', label: 'Enigme' },
+    { value: 'empty', label: 'Vide' },
+    { value: 'exit', label: 'Sortie' },
 ];
 
 // Form setup
 const form = useForm({
-    size: dungeonSize,
+    size: computed(() => dungeonSize.value),
     character_id: computed(() => characterStore.currentCharacter?.id),
     dungeon_id: computed(() => currentDungeon.value?.id),
     action: null,
@@ -74,7 +74,22 @@ const createDungeon = () => {
     });
 };
 
+const exitDungeon = () => {
+    form.delete(route('dungeon.destroy', dungeonStore.currentDungeon.id), {
+        preserveState: false,
+        preserveScroll: true,
+        onSuccess: () => {
+            dungeonStore.setCurrentDungeon(null);
+        },
+    });
+};
+
 const submitMessage = (action) => {
+    if (action === "Sortir du donjon") {
+        exitDungeon();
+        return;
+    }
+
     isLoading.value = true;
     showButtons.value = false;
     form.action = action;
@@ -184,19 +199,12 @@ onMounted(() => {
             <div class="flex-grow"></div>
 
             <div class="mt-4 grid">
-                <Button 
-                    v-for="(option, index) in currentRoom.options" 
-                    :key="option" 
-                    @click="submitMessage(option)"
-                    variant="secondary" 
-                    class="w-full sm:w-auto mt-2 transition-opacity duration-500 ease-in-out"
+                <Button v-for="(option, index) in currentRoom.options" :key="option" @click="submitMessage(option)"
+                    variant="secondary" class="w-full sm:w-auto mt-2 transition-opacity duration-500 ease-in-out"
                     :class="{
                         'opacity-0 pointer-events-none': showButtons || isLoading,
                         'opacity-100 pointer-events-auto': !showButtons && !isLoading
-                    }" 
-                    :style="{ transitionDelay: `${index * 200}ms` }"
-                    :disabled="isLoading"
-                >
+                    }" :style="{ transitionDelay: `${index * 200}ms` }" :disabled="isLoading">
                     {{ option }}
                 </Button>
             </div>

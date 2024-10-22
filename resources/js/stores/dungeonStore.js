@@ -24,6 +24,13 @@ export const useDungeonStore = defineStore("dungeon", {
 
         addDungeon(dungeon) {
             this.dungeons.push(dungeon);
+        },
+
+        removeDungeon(dungeonId) {
+            this.dungeons = this.dungeons.filter(d => d.id !== dungeonId);
+            if (this.currentDungeon && this.currentDungeon.id === dungeonId) {
+                this.currentDungeon = null;
+            }
         }
     },
 });
