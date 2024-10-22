@@ -48,10 +48,10 @@ class Room extends Model
         if (!$is_success) {
             switch ($type) {
                 case 'encounter':
-                    $character->hp -= 10;
+                    $character->hp -= 20;
                     break;
                 case 'trapped':
-                    $character->hp -= 20;
+                    $character->hp -= 30;
                     break;
             }
         }
