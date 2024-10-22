@@ -44,7 +44,7 @@ class DungeonController extends Controller
         $player_action = $request->action;
 
         $size_map = [
-            'small' => 1,
+            'small' => 10,
             'medium' => 25,
             'large' => 50
         ];

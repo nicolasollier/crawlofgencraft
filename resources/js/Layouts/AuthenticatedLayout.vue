@@ -1,5 +1,4 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
 import { storeToRefs } from 'pinia';
 import { SquareTerminal, Triangle, ChevronDown } from "lucide-vue-next";
 import Button from "@/Components/ui/button/Button.vue";
@@ -8,6 +7,8 @@ import { TooltipProvider } from "@/Components/ui/tooltip";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
 import { useCharacterStore } from '@/stores/characterStore';
 import { useDungeonStore } from '@/stores/dungeonStore';
+import { router, usePage } from '@inertiajs/vue3';
+
 
 const page = usePage();
 const userPseudo = page.props.auth.user.pseudo;
@@ -16,6 +17,10 @@ const characterStore = useCharacterStore();
 const dungeonStore = useDungeonStore();
 
 const { characters, currentCharacter } = storeToRefs(characterStore);
+
+const createCharacter = () => {
+    router.visit(route('characters.create'));
+};
 
 const selectCharacter = (character) => {
     characterStore.setCurrentCharacter(character);
@@ -47,19 +52,28 @@ const selectCharacter = (character) => {
                     <h1 class="text-xl font-semibold">{{ userPseudo }}</h1>
 
                     <!-- Character Picker -->
-                    <DropdownMenu v-if="characters.length > 1">
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="outline" class="ml-auto">
-                                {{ currentCharacter?.name || 'Sélectionner un personnage' }}
-                                <ChevronDown class="ml-2 h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem v-for="char in characters" :key="char.id" @click="selectCharacter(char)">
-                                {{ char.name }}
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <template v-if="!$page.url.endsWith('/characters/create')">
+                        <DropdownMenu v-if="characters.length > 0">
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" class="ml-auto">
+                                    {{ currentCharacter?.name || 'Sélectionner un personnage' }}
+                                    <ChevronDown class="ml-2 h-4 w-4" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem v-for="char in characters" :key="char.id"
+                                    @click="selectCharacter(char)">
+                                    {{ char.name }}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem @click="createCharacter">
+                                    Créer un personnage
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Button v-else variant="outline" class="ml-auto" @click="createCharacter">
+                            Créer un personnage
+                        </Button>
+                    </template>
                 </header>
 
                 <!-- Main Content -->
