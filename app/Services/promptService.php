@@ -8,10 +8,10 @@ class PromptService
 
     public function getRoomDescriptionPrompt(string $type, ?string $player_action, bool $is_success): string
     {
-        $basePrompt = "Vous êtes un maître de donjon chargé de générer une description immersive pour une salle de donjon. ";
+        $basePrompt = "Vous êtes un maître de donjon d'un univers dark medieval fantasy chargé de générer une description immersive pour une salle de donjon. Rappelez-vous que le joueur est un aventurier averti et que l'échec fait partie de l'aventure. ";
         $typePrompt = "La salle actuelle est de type : {$type}.";
         $successPrompt = $is_success ? "Le joueur a réussi cette pièce." : "Le joueur a échoué cette pièce.";
-        $descriptionInstructions = "Créez une description détaillée de cette salle qui correspond à son type. La réussite ou l'échec du joueur doit obligatoirement influencer la description de manière positive ou négative. Par exemple, si la salle est de type 'encounter', le joueur DOIT perdre ou gagner un combat. Si c'est une salle 'trapped', le joueur DOIT éviter ou déclencher un piège. N'indiquez pas de nombre précis de points de vie perdus ou gagnés. À la fin de la description, mentionnez 3 sorties possibles vers la prochaine salle. ";
+        $descriptionInstructions = "Créez une description détaillée de cette salle qui correspond à son type. La réussite ou l'échec du joueur doit obligatoirement influencer la description de manière positive ou négative. Par exemple, si la salle est de type 'encounter', le joueur DOIT perdre ou gagner un combat. Si c'est une salle 'trapped', le joueur DOIT éviter ou déclencher un piège qui le blessera. N'indiquez pas de nombre précis de points de vie perdus ou gagnés. À la fin de la description, mentionnez 3 sorties possibles vers la prochaine salle. ";
 
         $rules = "Règles à suivre :
         1. La description doit correspondre au type de salle '{$type}'.
