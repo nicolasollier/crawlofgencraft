@@ -85,7 +85,7 @@ const exitDungeon = () => {
 };
 
 const submitMessage = (action) => {
-    if (action === "Sortir du donjon") {
+    if (action === "Sortir du donjon" || action === "Recommencer") {
         exitDungeon();
         return;
     }

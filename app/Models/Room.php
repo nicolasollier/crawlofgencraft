@@ -23,7 +23,10 @@ class Room extends Model
         $promptService = new PromptService();
         $openAIService = new OpenAIService($promptService);
 
-        if ($type === 'exit') {
+        if($type === 'playerLost') {
+            $description = $openAIService->generateRoomDescription($type, $player_action, true);
+            $options = ['options' => ['Recommencer']];
+        } else if ($type === 'exit') {
             $description = $openAIService->generateRoomDescription($type, $player_action, true);
             $options = ['options' => ['Sortir du donjon']];
         } else {

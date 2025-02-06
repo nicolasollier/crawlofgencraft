@@ -51,7 +51,10 @@ class DungeonController extends Controller
 
         $max_rooms = $size_map[$dungeon->size] ?? 10;
 
-        if ($dungeon->room_count >= $max_rooms) {
+        if ($dungeon->character->hp <= 90) {
+            $playerLost = Room::generate('playerLost', $dungeon, $player_action, false);
+            $dungeon->rooms()->save($playerLost);
+        } else if ($dungeon->room_count >= $max_rooms) {
             $exitRoom = Room::generate('exit', $dungeon, $player_action, true);
             $dungeon->rooms()->save($exitRoom);
         } else {
