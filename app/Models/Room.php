@@ -41,7 +41,7 @@ class Room extends Model
         ]);
     }
 
-    public function handleHealthChange(string $type, bool $is_success, int $character_id)
+    public function handleStatsChange(string $type, bool $is_success, int $character_id)
     {
         $character = Character::find($character_id);
 
@@ -53,10 +53,14 @@ class Room extends Model
                 case 'trapped':
                     $character->hp -= 30;
                     break;
+                case 'enigma':
+                    $character->mana -= 30;
+                    break;
             }
         }
 
         $character->hp = max(0, $character->hp);
+        $character->mana = max(0, $character->mana);
         $character->save();
     }
 }

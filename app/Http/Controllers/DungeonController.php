@@ -61,7 +61,7 @@ class DungeonController extends Controller
 
             if ($dungeon->room_count >= $dungeon->rooms->count()) {
                 $newRoom = Room::generate($random_room_type, $dungeon, $player_action, $roomIsSuccess);
-                $newRoom->handleHealthChange($random_room_type, $roomIsSuccess, $dungeon->character_id);
+                $newRoom->handleStatsChange($random_room_type, $roomIsSuccess, $dungeon->character_id);
 
                 $dungeon->rooms()->save($newRoom);
             }
