@@ -15,9 +15,9 @@ export const useCharacterStore = defineStore("character", {
     actions: {
         setCharacters(characters) {
             this.characters = characters;
-            if (characters.length > 0 && !this.currentCharacter) {
-                this.setCurrentCharacter(characters[0]);
-            }
+            this.currentCharacter = this.currentCharacter
+                ? characters.find(c => c.id === this.currentCharacter.id) || characters[0]
+                : characters[0] || null;
         },
 
         setCurrentCharacter(character) {
