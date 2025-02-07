@@ -42,6 +42,14 @@ class CharacterController extends Controller
         return Inertia::render('Character/CreateCharacter');
     }
 
+    public function delete(Request $request)
+    {
+        $character = Character::findOrFail($request->character_id);
+        $character->delete();
+
+        return to_route('dashboard')->with('message', 'Votre personnage à trépassé.');
+    }
+
     private function addDefaultItems(Character $character)
     {
         $rags = Item::firstOrCreate(

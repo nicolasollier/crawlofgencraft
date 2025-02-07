@@ -84,10 +84,23 @@ const exitDungeon = () => {
     });
 };
 
+const deleteCharacter = () => {
+    form.delete(route('character.delete', characterStore.currentCharacter.id), {
+        preserveState: false,
+        onSuccess: () => {
+            characterStore.setCurrentCharacter(null)
+        }
+    })
+}
+
 const submitMessage = (action) => {
-    if (action === "Sortir du donjon" || action === "Recommencer") {
-        exitDungeon();
-        return;
+    if (action === "Sortir du donjon") {
+        exitDungeon()
+        return
+    }
+    if(action === "Recommencer") {
+        deleteCharacter()
+        return
     }
 
     isLoading.value = true;

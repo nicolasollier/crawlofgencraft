@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     // Characters
     Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
     Route::post('/characters', [CharacterController::class, 'store'])->name('characters.store');
+    Route::delete('/characters/{character}', [CharacterController::class, 'delete'])->name('character.delete');
 
     // Dungeons
     Route::post('/dungeon', [DungeonController::class, 'create'])->name('dungeon.create');
