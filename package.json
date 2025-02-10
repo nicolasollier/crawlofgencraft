@@ -3,16 +3,37 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{js,vue,ts}": [
+          "eslint --fix",
+          "prettier --write"
+        ],
+        "*.php": [
+          "./vendor/bin/php-cs-fixer fix --config .php-cs-fixer.php",
+          "./vendor/bin/pint"
+        ]
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",
+        "@typescript-eslint/eslint-plugin": "^8.23.0",
+        "@typescript-eslint/parser": "^8.23.0",
         "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/eslint-config-typescript": "^14.4.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.7.4",
+        "eslint": "^9.20.0",
+        "eslint-config-prettier": "^10.0.1",
+        "eslint-plugin-prettier": "^5.2.3",
+        "eslint-plugin-vue": "^9.32.0",
+        "husky": "^9.1.7",
         "laravel-vite-plugin": "^1.0",
+        "lint-staged": "^15.4.3",
         "postcss": "^8.4.31",
+        "prettier": "^3.5.0",
         "tailwindcss": "^3.2.1",
         "typescript": "^5.6.3",
         "vite": "^5.0",
