@@ -4,11 +4,11 @@ import { SquareTerminal, Triangle, ChevronDown } from "lucide-vue-next";
 import Button from "@/Components/ui/button/Button.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";
+import AppLogo from '@/Components/logos/AppLogo.vue';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
 import { useCharacterStore } from '@/stores/characterStore';
 import { useDungeonStore } from '@/stores/dungeonStore';
 import { router, usePage } from '@inertiajs/vue3';
-
 
 const page = usePage();
 const userPseudo = page.props.auth.user.pseudo;
@@ -33,9 +33,7 @@ const selectCharacter = (character) => {
         <div class="grid h-screen w-full pl-[53px]">
             <aside class="fixed inset-y-0 left-0 z-20 flex h-full flex-col border-r">
                 <div class="border-b p-2">
-                    <Button variant="outline" size="icon" aria-label="Home">
-                        <Triangle class="size-5 fill-foreground" />
-                    </Button>
+                    <AppLogo class="w-9 h-9 rounded-sm" />
                 </div>
                 <nav class="grid gap-1 p-2">
                     <Tooltip content="Playground" side="right">
