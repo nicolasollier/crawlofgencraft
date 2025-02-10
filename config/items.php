@@ -30,7 +30,7 @@ return [
             ['name' => 'Bâton du néant absolu', 'item_type' => 'weapon', 'damage_bonus' => 20, 'value' => 5000, 'description' => 'Un bâton imprégné d\'une énergie abyssale, dévorant la lumière autour de lui.'],
         ],
     ],
-    
+
     'armors' => [
         'common' => [
             ['name' => 'Tunique de cuir usée', 'item_type' => 'armor', 'armor_bonus' => 1, 'value' => 18, 'description' => 'Une tunique en cuir tanné, idéale pour se protéger des faibles coups.'],
@@ -53,5 +53,5 @@ return [
             ['name' => 'Armure de l\'Éternel Tourment', 'item_type' => 'armor', 'armor_bonus' => 12, 'value' => 5000, 'description' => 'Une armure mythique, écho des douleurs des âmes captives.'],
             ['name' => 'Bouclier du Gardien des Dieux', 'item_type' => 'armor', 'armor_bonus' => 15, 'value' => 6000, 'description' => 'Un bouclier divin, capable de renvoyer la force des assauts ennemis.'],
         ],
-    ]
+    ],
 ];

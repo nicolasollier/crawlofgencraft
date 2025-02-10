@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\Item;
 
 class DropItemService
@@ -10,7 +11,7 @@ class DropItemService
         'uncommon' => 25,
         'rare' => 15,
         'epic' => 8,
-        'legendary' => 2
+        'legendary' => 2,
     ];
 
     public function determineRarity(): string
@@ -31,14 +32,14 @@ class DropItemService
 
     public function dropItem(bool $isSuccess): ?Item
     {
-        if (!$isSuccess) {
+        if (! $isSuccess) {
             return null;
         }
 
         $rarity = $this->determineRarity();
         $items = config('items');
         $itemType = rand(0, 1) === 0 ? 'weapon' : 'armor';
-        $itemPool = $items[$itemType . 's'][$rarity];
+        $itemPool = $items[$itemType.'s'][$rarity];
         $selectedItem = $itemPool[array_rand($itemPool)];
 
         return Item::create([
@@ -48,7 +49,7 @@ class DropItemService
             'damage_bonus' => $itemType === 'weapon' ? $selectedItem['damage_bonus'] : 0,
             'armor_bonus' => $itemType === 'armor' ? $selectedItem['armor_bonus'] : 0,
             'value' => $selectedItem['value'],
-            'rarity' => $rarity         
+            'rarity' => $rarity,
         ]);
     }
 }

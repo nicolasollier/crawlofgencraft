@@ -10,7 +10,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 const appName = import.meta.env.VITE_APP_NAME || 'CrawlOfGencraft';
 
 createInertiaApp({
-    title: (title) => `${appName}`,
+    title: () => appName,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
@@ -28,5 +28,5 @@ createInertiaApp({
         color: '#4B5563',
     },
 }).then(() => {
-    document.getElementById('app').removeAttribute('data-page');
+    window.document.getElementById('app').removeAttribute('data-page');
 });

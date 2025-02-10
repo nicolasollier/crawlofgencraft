@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running PHP code quality checks..."
+if ! ./vendor/bin/phpcs --standard=PSR2 --colors app/; then
+    echo "❌ PHP CodeSniffer found coding standard violations. Please fix them before committing."
+    exit 1
+fi
+
+if ! ./vendor/bin/pint --test -v; then
+    echo "❌ Laravel Pint found code style issues. Please run 'composer format' to fix them."
+    exit 1
+fi
+
+echo "✅ PHP code quality checks passed!"
+
+echo "\n🔍 Running JavaScript linting..."
+if ! npm run lint -- --color; then
+    echo "❌ ESLint found code style issues. Please fix them before committing."
+    exit 1
+fi
+
+echo "✅ JavaScript linting passed!"
+echo "\n🎉 All quality checks passed successfully! Committing changes..."

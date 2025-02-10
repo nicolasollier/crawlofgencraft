@@ -16,7 +16,7 @@ class ItemFactory extends Factory
         $items = config('items');
         $itemType = $this->faker->randomElement(['weapons', 'armors']);
         $rarity = $this->faker->randomElement(['common', 'uncommon', 'rare', 'epic', 'legendary']);
-        
+
         $item = $this->faker->randomElement($items[$itemType][$rarity]);
 
         return [

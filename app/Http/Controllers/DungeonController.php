@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dungeon;
-use Illuminate\Http\Request;
 use App\Models\Character;
-use Inertia\Inertia;
+use App\Models\Dungeon;
 use App\Models\Room;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DungeonController extends Controller
 {
@@ -15,15 +15,15 @@ class DungeonController extends Controller
 
         $character = Character::find($request->character_id);
 
-        if (!$character) {
+        if (! $character) {
             return Inertia::render('Dashboard', [
-                'error' => 'Vous n\'avez pas de personnage'
+                'error' => 'Vous n\'avez pas de personnage',
             ]);
         }
 
         $dungeon = Dungeon::create([
             'character_id' => $character->id,
-            'name' => "Donjon de " . $character->name,
+            'name' => 'Donjon de '.$character->name,
             'size' => $request->size,
             'room_count' => 0,
         ]);
@@ -46,7 +46,7 @@ class DungeonController extends Controller
         $size_map = [
             'small' => 10,
             'medium' => 25,
-            'large' => 50
+            'large' => 50,
         ];
 
         $max_rooms = $size_map[$dungeon->size] ?? 10;
@@ -54,7 +54,7 @@ class DungeonController extends Controller
         if ($dungeon->character->hp <= 0) {
             $playerLost = Room::generate('playerLost', $dungeon, $player_action, false);
             $dungeon->rooms()->save($playerLost);
-        } else if ($dungeon->room_count >= $max_rooms) {
+        } elseif ($dungeon->room_count >= $max_rooms) {
             $exitRoom = Room::generate('exit', $dungeon, $player_action, true);
             $dungeon->rooms()->save($exitRoom);
         } else {

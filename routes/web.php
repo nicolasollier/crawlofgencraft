@@ -32,4 +32,4 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::delete('/dungeon/{dungeon}', [DungeonController::class, 'destroy'])->name('dungeon.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

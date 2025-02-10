@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Services\DropItemService;
 use App\Services\OpenAIService;
+use App\Services\PromptService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\PromptService;
-use App\Services\DropItemService;
 
 class Room extends Model
 {
@@ -19,16 +19,16 @@ class Room extends Model
         'is_success' => 'boolean',
     ];
 
-    public static function generate(string $type, Dungeon $dungeon, string $player_action = null, bool $is_success)
+    public static function generate(string $type, Dungeon $dungeon, ?string $player_action, bool $is_success)
     {
-        $promptService = new PromptService();
+        $promptService = new PromptService;
         $openAIService = new OpenAIService($promptService);
-        $dropItemService = new DropItemService();
+        $dropItemService = new DropItemService;
 
         if ($type === 'playerLost') {
             $description = $openAIService->generateRoomDescription($type, $player_action, true);
             $options = ['options' => ['Recommencer']];
-        } else if ($type === 'treasure' && $is_success) {
+        } elseif ($type === 'treasure' && $is_success) {
             $droppedItem = $dropItemService->dropItem($is_success);
             $description = $openAIService->generateRoomDescription($type, $player_action, true, $droppedItem);
 
@@ -36,12 +36,12 @@ class Room extends Model
                 $character = $dungeon->character;
                 $character->inventory()->create([
                     'item_id' => $droppedItem->id,
-                    'equipped' => false
+                    'equipped' => false,
                 ]);
             }
 
             $options = $openAIService->generateRoomOptions($type, $description['description']);
-        } else if ($type === 'exit') {
+        } elseif ($type === 'exit') {
             $description = $openAIService->generateRoomDescription($type, $player_action, true);
             $options = ['options' => ['Sortir du donjon']];
         } else {
@@ -63,7 +63,7 @@ class Room extends Model
     {
         $character = Character::find($character_id);
 
-        if (!$is_success) {
+        if (! $is_success) {
             switch ($type) {
                 case 'encounter':
                     $character->hp -= 20;

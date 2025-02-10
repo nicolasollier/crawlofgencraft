@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use OpenAI\Laravel\Facades\OpenAI;
-use App\Services\PromptService;
 
 class OpenAIService
 {
@@ -14,14 +13,17 @@ class OpenAIService
         $this->promptService = $promptService;
     }
 
-    public function generateRoomDescription(string $type, string $player_action = null, bool $is_success, string $droppedItem = null,): array
-    {
+    public function generateRoomDescription(
+        string $type,
+        ?string $player_action,
+        bool $is_success,
+        ?string $droppedItem = null,
+    ): array {
         if ($player_action) {
             $player_action = "La salle précédente le joueur a choisi l'option: $player_action.";
         }
 
         $prompt = $this->promptService->getRoomDescriptionPrompt($type, $player_action, $droppedItem, $is_success);
-        
 
         $result = OpenAI::chat()->create([
             'model' => 'gpt-3.5-turbo',
@@ -33,7 +35,7 @@ class OpenAIService
         $content = json_decode($result->choices[0]->message->content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Erreur lors du décodage de la réponse JSON : " . json_last_error_msg());
+            throw new \Exception('Erreur lors du décodage de la réponse JSON : '.json_last_error_msg());
         }
 
         return [
@@ -55,7 +57,7 @@ class OpenAIService
         $content = json_decode($result->choices[0]->message->content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Erreur lors du décodage de la réponse JSON : " . json_last_error_msg());
+            throw new \Exception('Erreur lors du décodage de la réponse JSON : '.json_last_error_msg());
         }
 
         return [

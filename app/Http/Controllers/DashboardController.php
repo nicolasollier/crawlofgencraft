@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\Dungeon;
 use Inertia\Inertia;
 use Inertia\Response;
 
