@@ -1,0 +1,51 @@
+
+name: Code Quality Assurance
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install PHP Dependencies
+        run: |
+          composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Install Node Dependencies
+        run: npm ci
+
+      - name: PHP Code Style
+        run: |
+          ./vendor/bin/phpcs --standard=PSR2 --colors app/
+          ./vendor/bin/pint --test -v
+
+      - name: JavaScript Linting
+        run: npm run lint
+
+      - name: Run Tests
+        run: |
+          php artisan test --parallel
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
