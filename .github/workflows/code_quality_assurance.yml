@@ -37,7 +37,7 @@ jobs:
 
       - name: Prepare Environment
         run: |
-          cp .env
+          cp .env.example .env
           php artisan key:generate --force
 
       - name: PHP Code Style
