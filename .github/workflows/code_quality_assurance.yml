@@ -35,6 +35,11 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
 
+      - name: Prepare Environment
+        run: |
+          cp .env.ci .env
+          php artisan key:generate --force
+
       - name: PHP Code Style
         run: |
           ./vendor/bin/phpcs --standard=PSR2 --colors app/
@@ -49,8 +54,3 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
-
-      - name: Prepare Environment
-        run: |
-          cp .env.ci .env
-          php artisan key:generate --force
