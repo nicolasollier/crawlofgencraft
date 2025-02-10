@@ -40,17 +40,6 @@ jobs:
           cp .env.example .env
           php artisan key:generate --force
 
-      - name: Build Frontend Assets
-        run: npm run build
-
-      - name: PHP Code Style
-        run: |
-          ./vendor/bin/phpcs --standard=PSR2 --colors app/
-          ./vendor/bin/pint --test -v
-
-      - name: JavaScript Linting
-        run: npm run lint
-
       - name: Debug directory structure
         run: |
           echo "Current directory:"
@@ -61,6 +50,17 @@ jobs:
           ls -la resources/js/Lib/ || echo "Lib directory not found"
           echo "\nlib directory content:"
           ls -la resources/js/lib/ || echo "lib directory not found"
+
+      - name: Build Frontend Assets
+        run: npm run build
+
+      - name: PHP Code Style
+        run: |
+          ./vendor/bin/phpcs --standard=PSR2 --colors app/
+          ./vendor/bin/pint --test -v
+
+      - name: JavaScript Linting
+        run: npm run lint
 
       - name: Run Tests
         run: |
