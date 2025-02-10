@@ -22,12 +22,12 @@ return [
             ['name' => 'Hallebarde du massacre', 'item_type' => 'weapon', 'damage_bonus' => 8, 'value' => 300, 'description' => 'Une hallebarde massive, capable de faucher plusieurs ennemis à la fois.'],
         ],
         'epic' => [
-            ['name' => 'Épée du jugement écarlate', 'item_type' => 'weapon', 'damage_bonus' => 12, 'value' => 1100, 'description' => 'Une épée légendaire, réclamant la justice avec chaque coup tranchant.'],
-            ['name' => 'Marteau du titan endormi', 'item_type' => 'weapon', 'damage_bonus' => 15, 'value' => 1500, 'description' => 'Un marteau colossal, imprégné de l\'essence des géants.'],
+            ['name' => 'Épée du jugement écarlate', 'item_type' => 'weapon', 'damage_bonus' => 12, 'value' => 500, 'description' => 'Une épée légendaire, réclamant la justice avec chaque coup tranchant.'],
+            ['name' => 'Marteau du titan endormi', 'item_type' => 'weapon', 'damage_bonus' => 15, 'value' => 600, 'description' => 'Un marteau colossal, imprégné de l\'essence des géants.'],
         ],
         'legendary' => [
-            ['name' => 'Lame du Roi Déchu', 'item_type' => 'weapon', 'damage_bonus' => 18, 'value' => 4500, 'description' => 'Une lame ancestrale, autrefois brandie par un roi dont le nom a été effacé de l\'histoire.'],
-            ['name' => 'Bâton du néant absolu', 'item_type' => 'weapon', 'damage_bonus' => 20, 'value' => 5000, 'description' => 'Un bâton imprégné d\'une énergie abyssale, dévorant la lumière autour de lui.'],
+            ['name' => 'Lame du Roi Déchu', 'item_type' => 'weapon', 'damage_bonus' => 18, 'value' => 700, 'description' => 'Une lame ancestrale, autrefois brandie par un roi dont le nom a été effacé de l\'histoire.'],
+            ['name' => 'Bâton du néant absolu', 'item_type' => 'weapon', 'damage_bonus' => 20, 'value' => 800, 'description' => 'Un bâton imprégné d\'une énergie abyssale, dévorant la lumière autour de lui.'],
         ],
     ],
 
@@ -46,12 +46,12 @@ return [
             ['name' => 'Bouclier des âmes perdues', 'item_type' => 'armor', 'armor_bonus' => 6, 'value' => 400, 'description' => 'Un bouclier forgé à partir des esprits des défunts.'],
         ],
         'epic' => [
-            ['name' => 'Carapace draconique', 'item_type' => 'armor', 'armor_bonus' => 8, 'value' => 1300, 'description' => 'Un plastron forgé à partir des écailles d\'un dragon déchu.'],
-            ['name' => 'Casque de la terreur', 'item_type' => 'armor', 'armor_bonus' => 9, 'value' => 1600, 'description' => 'Un casque effrayant qui glace le sang de ceux qui le voient.'],
+            ['name' => 'Carapace draconique', 'item_type' => 'armor', 'armor_bonus' => 8, 'value' => 500, 'description' => 'Un plastron forgé à partir des écailles d\'un dragon déchu.'],
+            ['name' => 'Casque de la terreur', 'item_type' => 'armor', 'armor_bonus' => 9, 'value' => 600, 'description' => 'Un casque effrayant qui glace le sang de ceux qui le voient.'],
         ],
         'legendary' => [
-            ['name' => 'Armure de l\'Éternel Tourment', 'item_type' => 'armor', 'armor_bonus' => 12, 'value' => 5000, 'description' => 'Une armure mythique, écho des douleurs des âmes captives.'],
-            ['name' => 'Bouclier du Gardien des Dieux', 'item_type' => 'armor', 'armor_bonus' => 15, 'value' => 6000, 'description' => 'Un bouclier divin, capable de renvoyer la force des assauts ennemis.'],
+            ['name' => 'Armure de l\'Éternel Tourment', 'item_type' => 'armor', 'armor_bonus' => 12, 'value' => 700, 'description' => 'Une armure mythique, écho des douleurs des âmes captives.'],
+            ['name' => 'Bouclier du Gardien des Dieux', 'item_type' => 'armor', 'armor_bonus' => 15, 'value' => 800, 'description' => 'Un bouclier divin, capable de renvoyer la force des assauts ennemis.'],
         ],
     ],
 ];
