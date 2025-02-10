@@ -6,6 +6,7 @@ use App\Services\OpenAIService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\PromptService;
+use App\Services\DropItemService;
 
 class Room extends Model
 {
@@ -22,10 +23,24 @@ class Room extends Model
     {
         $promptService = new PromptService();
         $openAIService = new OpenAIService($promptService);
+        $dropItemService = new DropItemService();
 
-        if($type === 'playerLost') {
+        if ($type === 'playerLost') {
             $description = $openAIService->generateRoomDescription($type, $player_action, true);
             $options = ['options' => ['Recommencer']];
+        } else if ($type === 'treasure' && $is_success) {
+            $droppedItem = $dropItemService->dropItem($is_success);
+            $description = $openAIService->generateRoomDescription($type, $player_action, true, $droppedItem);
+
+            if ($droppedItem) {
+                $character = $dungeon->character;
+                $character->inventory()->create([
+                    'item_id' => $droppedItem->id,
+                    'equipped' => false
+                ]);
+            }
+
+            $options = $openAIService->generateRoomOptions($type, $description['description']);
         } else if ($type === 'exit') {
             $description = $openAIService->generateRoomDescription($type, $player_action, true);
             $options = ['options' => ['Sortir du donjon']];

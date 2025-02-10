@@ -59,7 +59,8 @@ class CharacterController extends Controller
                 'item_type' => 'armor',
                 'armor_bonus' => 0,
                 'damage_bonus' => 0,
-                'value' => 1
+                'value' => 1,
+                'rarity' => 'common',
             ]
         );
 
@@ -70,7 +71,8 @@ class CharacterController extends Controller
                 'item_type' => 'weapon',
                 'armor_bonus' => 0,
                 'damage_bonus' => 1,
-                'value' => 5
+                'value' => 5,
+                'rarity' => 'common',
             ]
         );
 

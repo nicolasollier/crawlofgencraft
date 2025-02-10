@@ -6,11 +6,12 @@ class PromptService
 {
     private $roomTypes = ['encounter', 'trapped', 'treasure', 'enigma', 'empty'];
 
-    public function getRoomDescriptionPrompt(string $type, ?string $player_action, bool $is_success): string
+    public function getRoomDescriptionPrompt(string $type, ?string $player_action, ?string $droppedItem, bool $is_success): string
     {
         $basePrompt = "Vous êtes un maître de donjon d'un univers dark medieval fantasy chargé de générer une description immersive pour une salle de donjon. Rappelez-vous que le joueur est un aventurier averti et que l'échec fait partie de l'aventure. ";
         $typePrompt = "La salle actuelle est de type : {$type}.";
         $successPrompt = $is_success ? "Le joueur a réussi cette pièce." : "Le joueur a échoué cette pièce.";
+        $droppedItemPrompt = $droppedItem ? "Cette salle contient un objet spécial : {$droppedItem}. Intégrez naturellement cet objet dans la description de la salle, en le plaçant de manière cohérente avec l'environnement." : "";
         $descriptionInstructions = "Créez une description détaillée de cette salle qui correspond à son type. La réussite ou l'échec du joueur doit obligatoirement influencer la description de manière positive ou négative. Par exemple, si la salle est de type 'encounter', le joueur DOIT perdre ou gagner un combat. Si c'est une salle 'trapped', le joueur DOIT éviter ou déclencher un piège qui le blessera. N'indiquez pas de nombre précis de points de vie perdus ou gagnés. À la fin de la description, mentionnez 3 sorties possibles vers la prochaine salle. Si la salle est de type 'exit', la description doit être une description de la sortie du donjon le joueur à survécu à son aventure. Si la salle est un playerLost le joueur doit mourrir dans cette pièce.";
 
         $rules = "Règles à suivre :
@@ -24,7 +25,7 @@ class PromptService
 
         $formatPrompt = "Générez une réponse JSON avec la structure suivante : {\"description\": \"text\"}. ";
 
-        return $basePrompt . $typePrompt . $successPrompt . $descriptionInstructions . $rules . $playerActionPrompt . $formatPrompt;
+        return $basePrompt . $typePrompt . $successPrompt . $droppedItemPrompt . $descriptionInstructions . $rules . $playerActionPrompt . $formatPrompt;
     }
 
     public function getRoomOptionsPrompt(string $type, string $description): string

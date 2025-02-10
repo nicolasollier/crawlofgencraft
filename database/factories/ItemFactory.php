@@ -3,90 +3,74 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Item;
 
 class ItemFactory extends Factory
 {
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
-        $itemType = $this->faker->randomElement(['weapon', 'armor', 'misc']);
+        $items = config('items');
+        $itemType = $this->faker->randomElement(['weapons', 'armors']);
+        $rarity = $this->faker->randomElement(['common', 'uncommon', 'rare', 'epic', 'legendary']);
         
-        $itemData = $this->getItemData($itemType);
+        $item = $this->faker->randomElement($items[$itemType][$rarity]);
 
         return [
-            'name' => $itemData['name'],
-            'description' => $itemData['description'],
-            'item_type' => $itemType,
-            'damage_bonus' => $itemData['damageBonus'] ?? 0,
-            'armor_bonus' => $itemData['armorBonus'] ?? 0,
-            'value' => $this->faker->numberBetween(10, 500),
+            'name' => $item['name'],
+            'item_type' => $item['item_type'],
+            'description' => $item['description'],
+            'value' => $item['value'],
+            'damage_bonus' => $item['item_type'] === 'weapon' ? $item['damage_bonus'] : 0,
+            'armor_bonus' => $item['item_type'] === 'armor' ? $item['armor_bonus'] : 0,
+            'rarity' => $rarity,
         ];
     }
 
-    private function getItemData($itemType): array
+    /**
+     * Configure the factory to generate weapons only.
+     */
+    public function weapon(): static
     {
-        $data = [
-            'name' => 'Objet Inconnu',
-            'description' => 'Un objet mystérieux.',
-            'damageBonus' => 0,
-            'armorBonus' => 0,
-        ];
+        return $this->state(function () {
+            $weapons = config('items.weapons');
+            $rarity = $this->faker->randomElement(['common', 'uncommon', 'rare', 'epic', 'legendary']);
+            $weapon = $this->faker->randomElement($weapons[$rarity]);
 
-        switch ($itemType) {
-            case 'weapon':
-                $data['name'] = $this->faker->randomElement([
-                    'Épée de l\'Aube Écarlate', 
-                    'Arc Long Elfique', 
-                    'Hache du Berserker', 
-                    'Dague des Ombres', 
-                    'Marteau de Guerre du Tonnerre'
-                ]) ?: 'Arme Générique';
-                $data['description'] = $this->faker->randomElement([
-                    'Une arme finement ouvragée des temps anciens.', 
-                    'Forgée dans le feu du dragon, elle luit faiblement dans l\'obscurité.', 
-                    'Une arme mortelle maniée par les plus grands guerriers.',
-                    'Une arme légère, parfaite pour les attaques furtives.',
-                    'Un énorme marteau crépitant d\'énergie foudroyante.'
-                ]) ?: 'Une arme standard.';
-                $data['damageBonus'] = $this->faker->numberBetween(5, 20);
-                break;
+            return [
+                'name' => $weapon['name'],
+                'item_type' => 'weapon',
+                'description' => $weapon['description'],
+                'value' => $weapon['value'],
+                'damage_bonus' => $weapon['damage_bonus'],
+                'armor_bonus' => 0,
+                'rarity' => $rarity,
+            ];
+        });
+    }
 
-            case 'armor':
-                $data['name'] = $this->faker->randomElement([
-                    'Cuirasse d\'Acier', 
-                    'Cotte de Mailles Elfique', 
-                    'Bouclier en Peau de Dragon', 
-                    'Armure de Cuir du Voleur', 
-                    'Armure de Plates du Paladin'
-                ]) ?: 'Armure Générique';
-                $data['description'] = $this->faker->randomElement([
-                    'Une pièce d\'armure solide offrant une forte défense.', 
-                    'Légère et flexible, idéale pour des mouvements rapides.', 
-                    'Ce bouclier est connu pour résister aux coups les plus puissants.', 
-                    'Une armure légère, parfaite pour se fondre dans les ombres.', 
-                    'Une armure sacrée, bénie par les dieux pour les justes.'
-                ]) ?: 'Une pièce d\'armure standard.';
-                $data['armorBonus'] = $this->faker->numberBetween(5, 20);
-                break;
+    /**
+     * Configure the factory to generate armors only.
+     */
+    public function armor(): static
+    {
+        return $this->state(function () {
+            $armors = config('items.armors');
+            $rarity = $this->faker->randomElement(['common', 'uncommon', 'rare', 'epic', 'legendary']);
+            $armor = $this->faker->randomElement($armors[$rarity]);
 
-            case 'misc':
-                $data['name'] = $this->faker->randomElement([
-                    'Potion de Guérison', 
-                    'Parchemin de Boule de Feu', 
-                    'Anneau d\'Invisibilité', 
-                    'Sac sans Fond', 
-                    'Gemme de Vision Véritable'
-                ]) ?: 'Objet Divers Générique';
-                $data['description'] = $this->faker->randomElement([
-                    'Une potion magique qui restaure la santé.', 
-                    'Un parchemin inscrit d\'un ancien sort de feu.', 
-                    'Un anneau mystique qui rend son porteur invisible.', 
-                    'Un sac enchanté capable de contenir une quantité immense d\'objets.', 
-                    'Une gemme qui révèle les vérités cachées et les illusions.'
-                ]) ?: 'Un objet divers mystérieux.';
-                break;
-        }
-
-        return $data;
+            return [
+                'name' => $armor['name'],
+                'item_type' => 'armor',
+                'description' => $armor['description'],
+                'value' => $armor['value'],
+                'damage_bonus' => 0,
+                'armor_bonus' => $armor['armor_bonus'],
+                'rarity' => $rarity,
+            ];
+        });
     }
 }

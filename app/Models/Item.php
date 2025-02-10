@@ -16,6 +16,7 @@ class Item extends Model
         'damage_bonus',
         'armor_bonus',
         'value',
+        'rarity'
     ];
 
     public function inventories()

@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('description');
             $table->enum('item_type', ['weapon', 'armor', 'potion', 'misc']);
-            $table->integer('damage_bonus');
-            $table->integer('armor_bonus');
+            $table->integer('damage_bonus')->default(0);
+            $table->integer('armor_bonus')->default(0);
             $table->integer('value');
+            $table->string('rarity');
             $table->timestamps();
         });
     }
