@@ -27,7 +27,7 @@ const { currentCharacter, inventory } = storeToRefs(characterStore);
                         <Heart class="w-4 h-4 text-zinc-800" />
                         <div class="flex-grow">
                             <div class="h-2 bg-zinc-100 overflow-hidden">
-                                <div class="h-full bg-zinc-800"
+                                <div class="h-full bg-zinc-800 transition-all duration-300 ease-out"
                                     :style="{ width: `${(currentCharacter.hp / 100) * 100}%` }">
                                 </div>
                             </div>
@@ -37,8 +37,9 @@ const { currentCharacter, inventory } = storeToRefs(characterStore);
                         <Zap class="w-4 h-4 text-zinc-800" />
                         <div class="flex-grow">
                             <div class="h-2 bg-zinc-100 overflow-hidden">
-                                <div class="h-full bg-zinc-800"
-                                    :style="{ width: `${(currentCharacter.mana / 100) * 100}%` }"></div>
+                                <div class="h-full bg-zinc-800 transition-all duration-300 ease-out"
+                                    :style="{ width: `${(currentCharacter.mana / 100) * 100}%` }">
+                                </div>
                             </div>
                         </div>
                     </div>
