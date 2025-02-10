@@ -21,4 +21,9 @@ export default defineConfig({
         }),
         vueDevTools(),
     ],
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./resources/js', import.meta.url)),
+        }
+    }
 });
