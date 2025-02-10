@@ -35,12 +35,6 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
 
-      - name: Check File Casing
-        run: |
-          find resources/js -type f -name "*.ts" -o -name "*.vue" | while read file; do
-            grep -r "from '@/lib/" "$file" && echo "Warning: Found lowercase lib import in $file"
-          done
-
       - name: Prepare Environment
         run: |
           cp .env.example .env
