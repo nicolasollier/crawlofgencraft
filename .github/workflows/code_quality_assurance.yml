@@ -51,6 +51,17 @@ jobs:
       - name: JavaScript Linting
         run: npm run lint
 
+      - name: Debug directory structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "\nDirectory structure:"
+          ls -la resources/js/
+          echo "\nLib directory content:"
+          ls -la resources/js/Lib/ || echo "Lib directory not found"
+          echo "\nlib directory content:"
+          ls -la resources/js/lib/ || echo "lib directory not found"
+
       - name: Run Tests
         run: |
           php artisan test
