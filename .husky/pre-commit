@@ -21,4 +21,4 @@ if ! npm run lint -- --color; then
 fi
 
 echo "✅ JavaScript linting passed!"
-echo "\n🎉 All quality checks passed successfully! Committing changes..."
+echo "\n🎉 All quality checks passed successfully! Committing changes...\n"
