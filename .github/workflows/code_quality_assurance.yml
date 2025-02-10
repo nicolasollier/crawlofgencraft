@@ -1,4 +1,3 @@
-
 name: Code Quality Assurance
 
 on:
@@ -31,6 +30,7 @@ jobs:
       - name: Install PHP Dependencies
         run: |
           composer install --prefer-dist --no-interaction --no-progress
+          composer require brianium/paratest --dev
 
       - name: Install Node Dependencies
         run: npm ci
@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          php artisan test --parallel
+          php artisan test
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
