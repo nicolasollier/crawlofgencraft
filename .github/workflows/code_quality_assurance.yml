@@ -49,3 +49,8 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
+
+      - name: Prepare Environment
+        run: |
+          cp .env.ci .env
+          php artisan key:generate --force
