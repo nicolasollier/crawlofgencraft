@@ -40,17 +40,6 @@ jobs:
           cp .env.example .env
           php artisan key:generate --force
 
-      - name: Debug directory structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "\nDirectory structure:"
-          ls -la resources/js/
-          echo "\nLib directory content:"
-          ls -la resources/js/Lib/ || echo "Lib directory not found"
-          echo "\nlib directory content:"
-          ls -la resources/js/lib/ || echo "lib directory not found"
-
       - name: Build Frontend Assets
         run: npm run build
 
