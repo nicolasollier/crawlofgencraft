@@ -40,6 +40,9 @@ jobs:
           cp .env.example .env
           php artisan key:generate --force
 
+      - name: Build Frontend Assets
+        run: npm run build
+
       - name: PHP Code Style
         run: |
           ./vendor/bin/phpcs --standard=PSR2 --colors app/
