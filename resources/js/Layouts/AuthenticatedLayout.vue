@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-import { SquareTerminal, Triangle, ChevronDown } from "lucide-vue-next";
+import { SquareTerminal, ChevronDown } from "lucide-vue-next";
 import Button from "@/Components/ui/button/Button.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";

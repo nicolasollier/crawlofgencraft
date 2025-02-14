@@ -1,0 +1,40 @@
+{
+    "citations": {
+        "loyalGood": {
+            "content": "Le monde est un gouffre affamé, mais nous sommes les pierres du gué. Chaque promesse tenue, chaque main tendue, chaque vie arrachée aux ténèbres forge une route vers l'aube. Nous ne vaincrons peut-être jamais… mais tant qu'une seule épée se dresse pour la lumière, l'ombre n'a pas encore gagné.",
+            "author": "Ser Edrian Valcrest, Chevalier de l'Aube, An 764 du Second Royaume"
+        },
+        "neutralGood": {
+            "content": "J'ai vu mon nom effacé, mes terres brûlées, mes frères jetés à la fosse. Pourtant, l'écho d'une voix murmure encore en moi : relève-toi. L’espoir n’a pas de patrie, mais il trouve toujours un cœur où s’abriter. Et tant qu'il bat, je marcherai.",
+            "author": "Vael Dorne, Vagabond de l'Ancienne Gloire, Annales des Exilés"
+        },
+        "chaoticGood": {
+            "content": "Ils disent que je suis une tempête, un incendie, une lame sans fourreau. Peut-être. Mais les chaînes ne se brisent pas avec des prières et les murs ne tombent pas sous les discours. La justice n’attend pas la permission des rois.",
+            "author": "Aria Librevent, Championne des Opprimés"
+        },
+        "lawfulNeutral": {
+            "content": "Sans loi, il n’y a que cendres et ruines. Un monde sans règles est un festin pour les loups. Qu'importe que la justice soit douce ou cruelle, elle est le socle sur lequel les empires s'élèvent… ou s'effondrent.",
+            "author": "Justicar Althas Dorn, Magistrat des Cinq Royaumes"
+        },
+        "trueNeutral": {
+            "content": "Le monde ne choisit pas entre l'aube et le crépuscule. Il tourne, indifférent. Le bien, le mal, la guerre, la paix… tout n’est que passage. Ce que je suis importe peu. Ce que je vois, en revanche, ne ment jamais.",
+            "author": "Maître Chen, Gardien du Cercle Gris"
+        },
+        "chaoticNeutral": {
+            "content": "Pourquoi s’embarrasser de conscience quand le monde appartient à ceux qui osent le prendre ? Aujourd’hui, je vole une bourse. Demain, je sauve un enfant. Après-demain ? Qui sait. La seule constante, c'est moi.",
+            "author": "Selya Brisombre, Main Fantôme de la Guilde Noire"
+        },
+        "lawfulEvil": {
+            "content": "La peur est la seule monnaie qui ne perd jamais de sa valeur. Gouverner, ce n’est pas prêcher. C’est plier les genoux et briser les volontés. L’ordre naît du fer, et ceux qui n’embrassent pas la lame y goûtent tôt ou tard.",
+            "author": "Darmok Kha, Seigneur de Guerre du Croc Écarlate"
+        },
+        "neutralEvil": {
+            "content": "Le monde appartient à ceux qui n’ont pas peur de le prendre. L’honneur, la morale, les dieux ? Des fables pour ceux qui ont besoin d’être bercés avant d’être égorgés. Seule la force dicte le vrai droit.",
+            "author": "Soranos le Voilé, Archiprêtre de l’Œil Fendu"
+        },
+        "chaoticEvil": {
+            "content": "Les cités brûlent, les rois tombent, les prières s’étranglent dans la fumée. C’est une symphonie. La seule qui vaille. Pourquoi bâtir quand on peut détruire ? Pourquoi obéir quand on peut régner ? Il n’y a que la fin qui soit vraie.",
+            "author": "Kaerzan le Rouge, Fléau de Sept Cités, Chroniques du Grand Pillage"
+        }
+    }
+}
