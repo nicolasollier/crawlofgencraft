@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    container_name: crawlofgencraft_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_DATABASE=crawlofgencraft
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+
     mysql:
         image: 'mysql:8.0'
         container_name: 'crawlofgencraft_db'
