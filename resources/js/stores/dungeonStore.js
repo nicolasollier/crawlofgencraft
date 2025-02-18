@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useDungeonStore = defineStore("dungeon", {
     state: () => ({
+        isInitialized: false,
         dungeons: [],
         currentDungeon: null,
     }),
@@ -11,11 +12,12 @@ export const useDungeonStore = defineStore("dungeon", {
     },
 
     actions: {
-        setDungeons(dungeons) {
+        initializeStore(dungeons) {
             this.dungeons = dungeons;
             if (this.hasDungeons && !this.currentDungeon) {
                 this.setCurrentDungeon(dungeons[0]);
             }
+            this.isInitialized = true;
         },
 
         setCurrentDungeon(dungeon) {
@@ -33,4 +35,6 @@ export const useDungeonStore = defineStore("dungeon", {
             }
         }
     },
+}, {
+    persist: true
 });

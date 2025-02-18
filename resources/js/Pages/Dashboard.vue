@@ -6,42 +6,23 @@ import Output from '@/Layouts/Output.vue';
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
 import { useCharacterStore } from '@/stores/characterStore';
-import { useDungeonStore } from '@/stores/dungeonStore';
-import { onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-
-const props = defineProps({
-    characters: {
-        type: Array,
-        required: true,
-    },
-    dungeons: {
-        type: Array,
-        required: true,
-    },
-});
+import { ref } from 'vue';
 
 const characterStore = useCharacterStore();
-const dungeonStore = useDungeonStore();
-const { hasCharacters } = storeToRefs(characterStore);
+const { hasCharacters, currentCharacter, inventory } = storeToRefs(characterStore);
 
-onMounted(() => {
-    characterStore.setCharacters(props.characters);
-    dungeonStore.setDungeons(props.dungeons);
-});
-
-watch(() => props.characters, (newCharacters) => {
-    characterStore.setCharacters(newCharacters);
-});
-
-watch(() => props.dungeons, (newDungeons) => {
-    dungeonStore.setDungeons(newDungeons);
-}, { deep: true });
+const cardHovered = ref(false);
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <div v-if="!hasCharacters" class="flex flex-col h-full">
+        <div v-if="hasCharacters" class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
+            <CharacterInfos :currentCharacter="currentCharacter" :inventory="inventory" />
+            <Output />
+        </div>
+
+        <div v-else class="flex flex-col h-full">
             <div class="flex-grow bg-zinc-100 flex justify-center items-center rounded-md">
                 <div @mouseover="cardHovered = true" @mouseleave="cardHovered = false"
                     class="w-full max-w-2xl text-center rounded-md p-8 border border-border bg-white">
@@ -62,11 +43,6 @@ watch(() => props.dungeons, (newDungeons) => {
                     </Link>
                 </div>
             </div>
-        </div>
-
-        <div v-else class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
-            <CharacterInfos />
-            <Output />
         </div>
     </AuthenticatedLayout>
 </template>

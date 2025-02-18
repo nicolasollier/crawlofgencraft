@@ -9,12 +9,10 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { useDungeonStore } from '@/stores/dungeonStore';
 import { useCharacterStore } from '@/stores/characterStore';
 
-// Store setup
 const characterStore = useCharacterStore();
 const dungeonStore = useDungeonStore();
 const { currentDungeon, hasDungeons } = storeToRefs(dungeonStore);
 
-// Computed properties
 const currentRoom = computed(() => {
     if (!currentDungeon.value || !currentDungeon.value.rooms || currentDungeon.value.rooms.length === 0) {
         return null;
@@ -26,14 +24,12 @@ const currentRoomType = computed(() => {
     return roomTypes.find(type => type.value === currentRoom.value.type)?.label;
 });
 
-// Reactive refs
 const isLoading = ref(false);
 const dungeonSize = ref('medium');
 const typedDescription = ref('');
 const showButtons = ref(false);
 const isTyping = ref(false);
 
-// Constants
 const dungeonSizes = [
     { value: 'small', label: 'Petit' },
     { value: 'medium', label: 'Moyen' },
@@ -50,7 +46,6 @@ const roomTypes = [
     { value: 'exit', label: 'Sortie' },
 ];
 
-// Form setup
 const form = useForm({
     size: computed(() => dungeonSize.value),
     character_id: computed(() => characterStore.currentCharacter?.id),
@@ -58,7 +53,6 @@ const form = useForm({
     action: null,
 });
 
-// Methods
 const createDungeon = () => {
     isLoading.value = true;
     form.post(route('dungeon.create'), {
@@ -138,14 +132,12 @@ const typeDescription = (text) => {
     }, 30);
 };
 
-// Watchers
 watch(() => currentRoom.value?.description, (newDescription) => {
     if (newDescription) {
         typeDescription(newDescription);
     }
 });
 
-// Lifecycle hooks
 onMounted(() => {
     if (currentRoom.value?.description) {
         typeDescription(currentRoom.value.description);

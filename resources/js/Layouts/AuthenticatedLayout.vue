@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from 'pinia';
-import { SquareTerminal, ChevronDown } from "lucide-vue-next";
+import { SquareTerminal, ChevronDown, Store } from "lucide-vue-next";
 import Button from "@/Components/ui/button/Button.vue";
 import Tooltip from "@/Components/ui/tooltip/Tooltip.vue";
 import { TooltipProvider } from "@/Components/ui/tooltip";
@@ -17,6 +17,10 @@ const characterStore = useCharacterStore();
 const dungeonStore = useDungeonStore();
 
 const { characters, currentCharacter } = storeToRefs(characterStore);
+
+const isActiveRoute = (route) => {
+    return page.url.endsWith(route);
+};
 
 const createCharacter = () => {
     router.visit(route('characters.create'));
@@ -39,9 +43,19 @@ const selectCharacter = (character) => {
                 </div>
                 <nav class="grid gap-1 p-2">
                     <Tooltip content="Playground" side="right">
-                        <Button variant="ghost" size="icon" class="rounded-lg bg-muted" aria-label="Playground">
-                            <SquareTerminal class="size-5" />
-                        </Button>
+                        <Link :href="route('dashboard')">
+                            <Button variant="ghost" size="icon" class="rounded-lg" :class="{ 'bg-muted': isActiveRoute('dashboard') }" aria-label="Playground">
+                                <SquareTerminal class="size-5" />
+                            </Button>
+                        </Link>
+                    </Tooltip>
+
+                    <Tooltip content="Merchant" side="right">
+                        <Link :href="route('merchant')">
+                            <Button variant="ghost" size="icon" class="rounded-lg" :class="{ 'bg-muted': isActiveRoute('merchant') }" aria-label="Merchant">
+                                <Store class="size-5" />
+                            </Button>
+                        </Link>
                     </Tooltip>
                 </nav>
             </aside>

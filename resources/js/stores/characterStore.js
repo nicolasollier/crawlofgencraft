@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useCharacterStore = defineStore("character", {
     state: () => ({
+        isInitialized: false,
         characters: [],
         currentCharacter: null,
     }),
@@ -13,6 +14,10 @@ export const useCharacterStore = defineStore("character", {
     },
 
     actions: {
+        initializeStore(characters) {
+            this.setCharacters(characters);
+            this.isInitialized = true;
+        },
         setCharacters(characters) {
             this.characters = characters;
             this.currentCharacter = this.currentCharacter
@@ -24,4 +29,6 @@ export const useCharacterStore = defineStore("character", {
             this.currentCharacter = character;
         },
     },
+}, {
+    persist: true
 });

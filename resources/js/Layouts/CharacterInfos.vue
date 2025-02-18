@@ -2,16 +2,21 @@
 import { Heart, Zap, Coins, Shield, Sword } from 'lucide-vue-next';
 import Input from "@/Components/ui/input/Input.vue";
 import Label from "@/Components/ui/label/Label.vue";
-import { useCharacterStore } from '@/stores/characterStore';
-import { storeToRefs } from 'pinia';
 
-const characterStore = useCharacterStore();
-const { currentCharacter, inventory } = storeToRefs(characterStore);
+const props = defineProps({
+    currentCharacter: {
+        type: Object,
+        required: true,
+    },
+    inventory: {
+        type: Array,
+        required: true,
+    },
+});
 </script>
 
 <template>
     <div class="flex flex-col h-full overflow-hidden space-y-4">
-        <!-- Fiche de personnage -->
         <fieldset class="rounded-lg border p-4">
             <legend class="px-2 text-sm font-medium">
                 Fiche de personnage
@@ -47,7 +52,6 @@ const { currentCharacter, inventory } = storeToRefs(characterStore);
             </div>
         </fieldset>
 
-        <!-- Inventaire -->
         <fieldset class="rounded-lg border p-4">
             <legend class="px-2 text-sm font-medium">
                 Inventaire

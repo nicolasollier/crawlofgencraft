@@ -3,6 +3,7 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DungeonController;
+use App\Http\Controllers\MerchantController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ Route::get('/', function (): Response {
 Route::middleware(['auth', 'verified'])->group(function (): void {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/merchant', [MerchantController::class, 'index'])->name('merchant');
 
     // Characters
     Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
