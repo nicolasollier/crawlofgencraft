@@ -19,10 +19,13 @@ export const useCharacterStore = defineStore("character", {
             this.isInitialized = true;
         },
         setCharacters(characters) {
+            if (!characters || characters.length === 0) return;
+            
             this.characters = characters;
             this.currentCharacter = this.currentCharacter
                 ? characters.find(c => c.id === this.currentCharacter.id) || characters[0]
-                : characters[0] || null;
+                : characters[0];
+            this.isInitialized = true;
         },
 
         setCurrentCharacter(character) {
