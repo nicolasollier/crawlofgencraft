@@ -64,16 +64,16 @@ class Room extends Model
         $character = Character::find($character_id);
 
         if (! $is_success) {
-            switch ($type) {
-                case 'encounter':
-                    $character->hp -= 20;
-                    break;
-                case 'trapped':
-                    $character->hp -= 30;
-                    break;
-                case 'enigma':
-                    $character->mana -= 30;
-                    break;
+            $penalties = [
+                'encounter' => ['hp' => 30],
+                'trapped' => ['hp' => 30],
+                'enigma' => ['mana' => 30],
+            ];
+
+            if (isset($penalties[$type])) {
+                foreach ($penalties[$type] as $stat => $value) {
+                    $character->$stat -= $value;
+                }
             }
         }
 
