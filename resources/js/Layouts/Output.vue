@@ -161,11 +161,11 @@ onMounted(() => {
 <template>
     <div class="bg-zinc-100 rounded-md flex flex-col lg:col-span-2 items-center p-4">
         <div v-if="!hasDungeons || !currentDungeon" class="w-full h-full flex flex-col items-center justify-between">
-            <CardHeader class="w-full max-w-md">
-                <CardTitle class="text-center text-2xl font-bold mb-1 line-height-0">
+            <CardHeader class="w-full max-w-md pb-2">
+                <CardTitle class="text-center text-2xl font-bold mb-4 leading-2">
                     Créez votre premier donjon et commencez votre aventure !
                 </CardTitle>
-                <div class="w-full flex justify-center mb-4">
+                <div class="w-full flex justify-center">
                     <Select v-model="dungeonSize" :disabled="isLoading">
                         <SelectTrigger class="w-48 mb-2 bg-zinc-50">
                             <SelectValue placeholder="Taille du donjon" />
@@ -180,7 +180,7 @@ onMounted(() => {
             </CardHeader>
 
             <CardContent class="w-full max-w-md flex flex-col items-center">
-                <img class="w-64 mx-auto object-cover opacity-85"
+                <img class="h-[40vh] w-auto max-w-full mx-auto object-contain object-top opacity-85"
                     src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
                     alt="Créez votre donjon" draggable="false" />
             </CardContent>
