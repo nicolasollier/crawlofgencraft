@@ -138,7 +138,7 @@ const typeDescription = (text) => {
             isTyping.value = false;
             showButtons.value = true;
         }
-    }, 30);
+    }, 15);
 };
 
 watch(() => currentRoom.value?.description, (newDescription) => {
