@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import { Heart, Zap, Coins, Shield, Sword } from 'lucide-vue-next';
 import Input from "@/Components/ui/input/Input.vue";
 import Label from "@/Components/ui/label/Label.vue";
@@ -13,6 +14,33 @@ const props = defineProps({
         required: true,
     },
 });
+
+const draggedItemId = ref(null);
+
+const onDragStart = (event, item) => {
+    draggedItemId.value = item.id;
+    event.dataTransfer.setData('application/json', JSON.stringify(item));
+    event.dataTransfer.effectAllowed = 'move';
+
+    const dragImage = event.target.cloneNode(true);
+    dragImage.style.width = `${event.target.offsetWidth}px`;
+    dragImage.style.height = `${event.target.offsetHeight}px`;
+    dragImage.style.position = 'fixed';
+    dragImage.style.left = '-1000px';
+    dragImage.style.top = '0';
+    dragImage.style.opacity = '0.8';
+    document.body.appendChild(dragImage);
+    
+    event.dataTransfer.setDragImage(dragImage, event.offsetX, event.offsetY);
+    
+    setTimeout(() => {
+        document.body.removeChild(dragImage);
+    }, 0);
+};
+
+const onDragEnd = () => {
+    draggedItemId.value = null;
+};
 </script>
 
 <template>
@@ -48,6 +76,13 @@ const props = defineProps({
                             </div>
                         </div>
                     </div>
+
+                    <div class="flex items-center gap-2">
+                        <Coins class="w-4 h-4 text-zinc-800" />
+                        <div class="text-sm">
+                            {{ currentCharacter.gold }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </fieldset>
@@ -60,9 +95,19 @@ const props = defineProps({
                 <div v-if="inventory.length === 0">
                     <p class="text-zinc-500 text-sm">Vous n'avez pas d'objets dans votre inventaire.</p>
                 </div>
-                <div v-else class="max-h-[420px] overflow-y-auto pr-4 space-y-2 inventory-scrollbar">
-                    <div v-for="item in inventory" :key="item.id"
-                        class="bg-white p-3 rounded-md border border-zinc-200">
+                <div v-else class="max-h-[420px] pr-4 space-y-2 inventory-scrollbar">
+                    <div v-for="item in inventory" 
+                         :key="item.id"
+                         draggable="true"
+                         @dragstart="onDragStart($event, item)"
+                         @dragend="onDragEnd"
+                         class="p-3 rounded-md border transition-all duration-300 ease-out cursor-pointer"
+                         :class="[
+                             draggedItemId === item.id 
+                                 ? 'bg-gray-100 [&_*]:opacity-0' 
+                                 : 'bg-white border-zinc-200 hover:shadow-md'
+                         ]"
+                    >
                         <div class="flex justify-between items-start">
                             <h3 class="text-base font-semibold">{{ item.name }}</h3>
                         </div>
@@ -87,3 +132,15 @@ const props = defineProps({
         </fieldset>
     </div>
 </template>
+
+<style scoped>
+[draggable="true"] {
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[draggable="true"]:active {
+    opacity: 0.7;
+    transform: scale(1.02);
+    cursor: grabbing;
+}
+</style>

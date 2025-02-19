@@ -21,7 +21,10 @@ Route::get('/', function (): Response {
 Route::middleware(['auth', 'verified'])->group(function (): void {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Merchant
     Route::get('/merchant', [MerchantController::class, 'index'])->name('merchant');
+    Route::post('/merchant/sell-item', [MerchantController::class, 'sellItem'])->name('merchant.sell-item');
 
     // Characters
     Route::get('/characters/create', [CharacterController::class, 'create'])->name('characters.create');
