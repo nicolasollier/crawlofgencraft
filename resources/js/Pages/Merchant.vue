@@ -57,8 +57,7 @@ const onDrop = (event) => {
 <template>
     <AuthenticatedLayout>
         <div class="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-4 p-2 sm:p-4">
-            <CharacterInfos 
-                class="lg:col-span-1 overflow-auto max-h-[calc(100vh-8rem)]" 
+            <CharacterInfos  
                 :currentCharacter="currentCharacter" 
                 :inventory="inventory" 
             />

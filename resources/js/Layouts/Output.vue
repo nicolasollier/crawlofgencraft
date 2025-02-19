@@ -1,5 +1,6 @@
 <script setup>
 import Button from "@/Components/ui/button/Button.vue";
+import { CardHeader, CardTitle, CardContent, CardFooter } from "@/Components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import { PlusCircle, Castle, Skull, Sparkles } from "lucide-vue-next";
 import { useForm } from '@inertiajs/vue3';
@@ -158,17 +159,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="relative flex flex-col h-full rounded-xl bg-muted/50 py-8 px-12 lg:col-span-2 overflow-hidden">
-        <!-- No dungeon state -->
-        <div v-if="!hasDungeons || !currentDungeon" class="flex flex-col h-full justify-center items-center">
-            <div class="text-center flex flex-col items-center">
-                <h2 class="text-3xl font-bold tracking-tight mb-1">Pas encore de donjon ?</h2>
-                <p class="text-muted-foreground text-md mb-6">
+    <div class="bg-zinc-100 rounded-md flex flex-col lg:col-span-2 items-center p-4">
+        <div v-if="!hasDungeons || !currentDungeon" class="w-full h-full flex flex-col items-center justify-between">
+            <CardHeader class="w-full max-w-md">
+                <CardTitle class="text-center text-2xl font-bold mb-1 line-height-0">
                     Créez votre premier donjon et commencez votre aventure !
-                </p>
-                <div class="mb-4">
+                </CardTitle>
+                <div class="w-full flex justify-center mb-4">
                     <Select v-model="dungeonSize" :disabled="isLoading">
-                        <SelectTrigger class="w-48 mb-2">
+                        <SelectTrigger class="w-48 mb-2 bg-zinc-50">
                             <SelectValue placeholder="Taille du donjon" />
                         </SelectTrigger>
                         <SelectContent>
@@ -178,53 +177,65 @@ onMounted(() => {
                         </SelectContent>
                     </Select>
                 </div>
-            </div>
+            </CardHeader>
 
-            <img class="mx-auto mb-10 w-full max-w-sm object-cover opacity-85"
-                src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
-                alt="Créez votre donjon" draggable="false" />
+            <CardContent class="w-full max-w-md flex flex-col items-center">
+                <img class="w-64 mx-auto object-cover opacity-85"
+                    src="https://res.cloudinary.com/dnqqx8hbb/image/upload/empty_dungeon_placeholder_lmnfoy.png"
+                    alt="Créez votre donjon" draggable="false" />
+            </CardContent>
 
-            <Button size="lg" @click.prevent="createDungeon" :disabled="isLoading">
-                <PlusCircle class="mr-2 h-5 w-5" />
-                {{ isLoading ? 'Création...' : 'Créer un donjon' }}
-            </Button>
+            <CardFooter class="w-full max-w-md flex justify-center">
+                <Button size="lg" @click.prevent="createDungeon" :disabled="isLoading" class="w-48">
+                    <PlusCircle class="mr-2 h-5 w-5" />
+                    {{ isLoading ? 'Création...' : 'Créer un donjon' }}
+                </Button>
+            </CardFooter>
         </div>
 
-        <!-- Current room state -->
-        <div v-else-if="currentRoom" class="flex flex-col h-full">
-            <div class="flex flex-wrap items-center text-sm pb-4 mb-4 gap-2">
-                <span class="flex items-center text-zinc-800 font-semibold">
-                    <Castle class="inline-block w-4 h-4 mr-2" />
-                    Donjon {{ currentDungeon.size }}
-                </span>
-                <span class="inline text-zinc-400">|</span>
-                <span class="text-zinc-800 font-semibold">Salle {{ currentRoom.room_number }}</span>
-                <span class="inline text-zinc-400">|</span>
-                <span class="flex items-center text-zinc-800 font-semibold">
-                    <Skull v-if="!currentRoom.is_success" class="inline-block w-4 h-4 mr-1.5" />
-                    <Sparkles v-else class="inline-block w-4 h-4 mr-1.5" />
-                    {{ currentRoomType }}
-                </span>
-            </div>
+        <div v-else-if="currentRoom" class="w-full h-full flex flex-col">
+            <CardHeader>
+                <div class="flex flex-wrap items-center text-sm pb-4 mb-4 gap-2">
+                    <span class="flex items-center text-zinc-800 font-semibold">
+                        <Castle class="inline-block w-4 h-4 mr-2" />
+                        Donjon {{ currentDungeon.size }}
+                    </span>
+                    <span class="inline text-zinc-400">|</span>
+                    <span class="text-zinc-800 font-semibold">Salle {{ currentRoom.room_number }}</span>
+                    <span class="inline text-zinc-400">|</span>
+                    <span class="flex items-center text-zinc-800 font-semibold">
+                        <Skull v-if="!currentRoom.is_success" class="inline-block w-4 h-4 mr-1.5" />
+                        <Sparkles v-else class="inline-block w-4 h-4 mr-1.5" />
+                        {{ currentRoomType }}
+                    </span>
+                </div>
+            </CardHeader>
 
-            <div class="text-sm text-zinc-800">
-                <p :class="{ 'typing-cursor': isTyping }">
-                    {{ typedDescription }}
-                </p>
-            </div>
+            <CardContent class="flex-grow">
+                <div class="text-sm text-zinc-800">
+                    <p :class="{ 'typing-cursor': isTyping }">
+                        {{ typedDescription }}
+                    </p>
+                </div>
+            </CardContent>
 
-            <div class="flex-grow"></div>
-
-            <div class="mt-4 grid">
-                <Button v-for="(option, index) in currentRoom.options" :key="option" @click="submitMessage(option)"
-                    variant="secondary" class="w-full sm:w-auto mt-2 transition-opacity duration-500 ease-in-out"
-                    :class="{
-                        'opacity-0 pointer-events-none': showButtons || isLoading,
-                        'opacity-100 pointer-events-auto': !showButtons && !isLoading
-                    }" :style="{ transitionDelay: `${index * 200}ms` }" :disabled="isLoading">
-                    {{ option }}
-                </Button>
-            </div>
+            <CardFooter class="pb-2">
+                <div class="grid w-full gap-2">
+                    <Button v-for="(option, index) in currentRoom.options" 
+                        :key="option" 
+                        @click="submitMessage(option)"
+                        variant="secondary"
+                        class="w-full shadow-none bg-zinc-200 hover:bg-zinc-300 transition-opacity duration-500 ease-in-out"
+                        :class="{
+                            'opacity-0 pointer-events-none': !showButtons || isLoading,
+                            'opacity-100 pointer-events-auto': showButtons && !isLoading
+                        }" 
+                        :style="{ transitionDelay: `${index * 200}ms` }" 
+                        :disabled="isLoading">
+                        {{ option }}
+                    </Button>
+                </div>
+            </CardFooter>
         </div>
     </div>
 </template>

@@ -18,7 +18,10 @@ const cardHovered = ref(false);
 <template>
     <AuthenticatedLayout>
         <div v-if="hasCharacters" class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
-            <CharacterInfos :currentCharacter="currentCharacter" :inventory="inventory" />
+            <CharacterInfos 
+                :currentCharacter="currentCharacter" 
+                :inventory="inventory" 
+            />
             <Output />
         </div>
 
