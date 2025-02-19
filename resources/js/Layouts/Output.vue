@@ -58,8 +58,13 @@ const createDungeon = () => {
     form.post(route('dungeon.create'), {
         preserveScroll: true,
         onSuccess: (response) => {
-            dungeonStore.addDungeon(response.data);
-            dungeonStore.setCurrentDungeon(response.data);
+            if (response.props.dungeons) {
+                dungeonStore.initializeStore(response.props.dungeons);
+                const newDungeon = response.props.dungeons[response.props.dungeons.length - 1];
+                if (newDungeon) {
+                    dungeonStore.setCurrentDungeon(newDungeon);
+                }
+            }
             isLoading.value = false;
         },
         onError: () => {
@@ -116,31 +121,38 @@ const submitMessage = (action) => {
 };
 
 const typeDescription = (text) => {
+    if (!text) return;
+    
     isTyping.value = true;
     typedDescription.value = '';
+    showButtons.value = false;
+    
     let index = 0;
     const interval = setInterval(() => {
         if (index < text.length) {
-            showButtons.value = true;
             typedDescription.value += text[index];
             index++;
         } else {
             clearInterval(interval);
             isTyping.value = false;
-            showButtons.value = false;
+            showButtons.value = true;
         }
     }, 30);
 };
 
 watch(() => currentRoom.value?.description, (newDescription) => {
     if (newDescription) {
-        typeDescription(newDescription);
+        setTimeout(() => {
+            typeDescription(newDescription);
+        }, 100);
     }
 });
 
 onMounted(() => {
     if (currentRoom.value?.description) {
-        typeDescription(currentRoom.value.description);
+        setTimeout(() => {
+            typeDescription(currentRoom.value.description);
+        }, 100);
     }
 });
 </script>
