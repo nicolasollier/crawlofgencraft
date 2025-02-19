@@ -5,7 +5,6 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { createApp, h } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import StoreProvider from '@/Layouts/StoreProvider.vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 const appName = import.meta.env.VITE_APP_NAME || 'CrawlOfGencraft';
@@ -20,14 +19,10 @@ createInertiaApp({
         return pages[`./Pages/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
-        createApp({
-            render: () => h(StoreProvider, null, {
-                default: () => h(App, props)
-            })
-        })
+        return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue)
             .use(pinia)
+            .use(ZiggyVue)
             .mount(el);
     },
     progress: {

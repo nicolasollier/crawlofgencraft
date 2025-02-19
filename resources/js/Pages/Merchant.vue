@@ -4,12 +4,14 @@ import CharacterInfos from '@/Layouts/CharacterInfos.vue';
 import { useCharacterStore } from '@/stores/characterStore';
 import { storeToRefs } from 'pinia';
 import { CardHeader, CardTitle, CardContent } from '@/Components/ui/card';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CitationBlock from '@/Components/Character/CitationBlock.vue';
 import CardFooter from '@/Components/ui/card/CardFooter.vue';
 import { useForm } from '@inertiajs/vue3';
+import { Loader2 } from 'lucide-vue-next';
+
 const characterStore = useCharacterStore();
-const { currentCharacter, inventory } = storeToRefs(characterStore);
+const { currentCharacter, inventory, isLoading } = storeToRefs(characterStore);
 
 const portraitUrl = ref('https://cdn.midjourney.com/c18ed8a3-e757-48dd-a4ae-0a272e33af28/0_0.png');
 const merchantQuote = {
@@ -18,7 +20,7 @@ const merchantQuote = {
 };
 
 const form = useForm({
-    character_id: currentCharacter.value.id,
+    character_id: null,
     item_id: null,
 });
 
@@ -56,7 +58,7 @@ const onDrop = (event) => {
 
 <template>
     <AuthenticatedLayout>
-        <div class="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-4 p-2 sm:p-4">
+        <div v-if="!isLoading && currentCharacter" class="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-4 p-2 sm:p-4">
             <CharacterInfos  
                 :currentCharacter="currentCharacter" 
                 :inventory="inventory" 
