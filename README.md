@@ -1,6 +1,7 @@
-<p align="center">
-<img src="https://res.cloudinary.com/dnqqx8hbb/image/upload/dungeon_entrance_o9qtwu.png" width="400" alt="Crawl of Gencraft Logo">
-</p>
+
+![preview](https://github.com/user-attachments/assets/c5fa8f6d-1742-470f-9949-bde9bcf8d22e)
+
+
 
 ## À propos de Crawl of Gencraft
 
