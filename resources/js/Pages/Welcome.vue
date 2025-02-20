@@ -90,11 +90,19 @@ const toggleMenu = () => {
                 "
                 class="w-full md:hidden overflow-hidden transition-all duration-300 ease-in-out"
             >
-                <div class="flex items-center gap-2 mt-4 mb-2">
-                    <Button class="w-1/2 cursor-pointer" variant="secondary"
-                        >S'inscrire</Button
-                    >
-                    <Button class="w-1/2 cursor-pointer">Connexion</Button>
+                <div class="flex flex-row items-center justify-center gap-4 mt-4 mb-2">
+                    <Link :href="route('register')" class="w-full">
+                        <Button class="w-full cursor-pointer" variant="secondary"
+                            >S'inscrire</Button
+                        >
+                    </Link>
+                    
+                    <Link v-if="$page.props.auth.user && canLogin" :href="route('dashboard')" class="w-full">
+                        <Button class="w-full cursor-pointer">Connexion</Button>
+                    </Link>
+                    <Link v-else :href="route('login')" class="w-full">
+                        <Button class="w-full cursor-pointer">Connexion</Button>
+                    </Link>
                 </div>
             </div>
         </div>
@@ -218,10 +226,17 @@ const toggleMenu = () => {
                     <div
                         class="flex w-full flex-col justify-center gap-2 sm:flex-row"
                     >
-                        <Button class="cursor-pointer" variant="outline"
-                            >S'inscrire</Button
-                        >
-                        <Button class="cursor-pointer">Connexion</Button>
+                        <Link :href="route('register')" class="w-full sm:w-auto">
+                            <Button class="w-full cursor-pointer" variant="outline"
+                                >S'inscrire</Button
+                            >
+                        </Link>
+                        <Link v-if="$page.props.auth.user && canLogin" :href="route('dashboard')" class="w-full sm:w-auto">
+                            <Button class="w-full cursor-pointer">Connexion</Button>
+                        </Link>
+                        <Link v-else :href="route('login')" class="w-full sm:w-auto">
+                            <Button class="w-full cursor-pointer">Connexion</Button>
+                        </Link>
                     </div>
                 </div>
             </div>
