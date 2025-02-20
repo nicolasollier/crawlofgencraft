@@ -15,7 +15,7 @@ pinia.use(piniaPluginPersistedstate);
 createInertiaApp({
     title: () => appName,
     resolve: name => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
+        const pages = import.meta.glob('./Pages/**/*.vue');
         return pages[`./Pages/${name}.vue`];
     },
     setup({ el, App, props, plugin }) {
