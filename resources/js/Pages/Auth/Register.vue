@@ -15,6 +15,7 @@ import { Label } from "@/Components/ui/label";
 const form = useForm({
     pseudo: "",
     email: "",
+    openai_api_key: "",
     password: "",
     password_confirmation: "",
 });
@@ -59,6 +60,15 @@ const submit = () => {
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                     />
                     <InputError :message="form.errors.email" />
+                </div>
+                <div class="grid gap-2">
+                    <Label for="openai_api_key">Clé API OpenAI</Label>
+                    <Input
+                        id="openai_api_key"
+                        v-model="form.openai_api_key"
+                        type="password"
+                        placeholder="sk-..."
+                    />
                 </div>
                 <div class="grid gap-2">
                     <Label for="password">Mot de passe</Label>

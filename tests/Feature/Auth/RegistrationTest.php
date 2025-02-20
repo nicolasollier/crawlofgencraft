@@ -23,6 +23,7 @@ class RegistrationTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'openai_api_key' => 'sk-proj-1234567890',
         ]);
 
         $this->assertAuthenticated();

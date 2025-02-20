@@ -3,14 +3,31 @@
 namespace App\Services;
 
 use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Auth;
 
 class OpenAIService
 {
     private $promptService;
+    private $client;
 
     public function __construct(PromptService $promptService)
     {
         $this->promptService = $promptService;
+        $this->initializeClient();
+    }
+
+    private function initializeClient()
+    {
+        if (!Auth::check()) {
+            throw new \Exception('Utilisateur non authentifié');
+        }
+
+        $apiKey = Auth::user()->openai_api_key;
+        if (empty($apiKey)) {
+            throw new \Exception('Clé API OpenAI non configurée');
+        }
+
+        config(['openai.api_key' => $apiKey]);
     }
 
     public function generateRoomDescription(

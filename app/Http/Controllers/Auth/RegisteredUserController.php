@@ -34,12 +34,14 @@ class RegisteredUserController extends Controller
             'pseudo' => 'required|string|max:255|unique:'.User::class,
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'openai_api_key' => 'required|string',
         ]);
 
         $user = User::create([
             'pseudo' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'openai_api_key' => $request->openai_api_key,
         ]);
 
         event(new Registered($user));
