@@ -1,7 +1,3 @@
-<p align="center">
-<img src="https://res.cloudinary.com/dnqqx8hbb/image/upload/dungeon_entrance_o9qtwu.png" width="400" alt="Crawl of Gencraft Logo">
-</p>
-
 ## À propos de Crawl of Gencraft
 
 Crawl of Gencraft est un jeu d'aventure textuel unique où chaque donjon est généré dynamiquement par l'intelligence artificielle. Le jeu combine :
