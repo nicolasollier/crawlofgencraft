@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Auth;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class OpenAIService
 {
     private $promptService;
+
     private $client;
 
     public function __construct(PromptService $promptService)
@@ -18,7 +19,7 @@ class OpenAIService
 
     private function initializeClient()
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             throw new \Exception('Utilisateur non authentifié');
         }
 
