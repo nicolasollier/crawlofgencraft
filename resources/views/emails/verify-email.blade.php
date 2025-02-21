@@ -62,9 +62,9 @@
         .button {
             display: inline-block;
             padding: 0.75rem 1.5rem;
-            background-color: #0f172a;
-            color: white;
-            text-decoration: none;
+            background-color: #0f172a !important;
+            color: white !important;
+            text-decoration: none !important;
             border-radius: 0.375rem;
             font-weight: 500;
             text-align: center;
@@ -84,6 +84,25 @@
             margin-top: 2rem;
             padding-top: 1rem;
             border-top: 1px solid #e2e8f0;
+        }
+
+        .header h1 {
+            color: #0f172a !important;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .content a[href] {
+            color: #2563eb !important;
+            word-break: break-all;
+            text-decoration: underline;
+        }
+
+        .content p {
+            color: #1a1a1a !important;
+            text-decoration: none !important;
         }
     </style>
 </head>
@@ -118,16 +137,16 @@
                         fill="#171717" transform="translate(519.3828125,180.15625)" />
                 </svg>
             </div>
-            <h1 style="color: #0f172a; font-size: 1.5rem; margin: 1rem 0;">Vérification de votre email</h1>
+            <h1>Vérification de votre email</h1>
         </div>
 
         <div class="content">
-            <p>Bonjour {{ $notifiable->pseudo }},</p>
+            <p style="color: #1a1a1a !important;">Bonjour {{ $notifiable->pseudo }},</p>
             
-            <p>Merci de vous être inscrit ! Pour finaliser votre inscription et accéder à toutes les fonctionnalités, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :</p>
+            <p style="color: #1a1a1a !important;">Merci de vous être inscrit ! Pour finaliser votre inscription et accéder à toutes les fonctionnalités, veuillez vérifier votre adresse email en cliquant sur le bouton ci-dessous :</p>
 
             <div style="text-align: center;">
-                <a href="{{ $url }}" class="button">
+                <a href="{{ $url }}" class="button" style="color: white !important; text-decoration: none !important;">
                     Vérifier mon email
                 </a>
             </div>
