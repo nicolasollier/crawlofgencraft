@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class RegisteredUserController extends Controller
 {
@@ -41,7 +42,7 @@ class RegisteredUserController extends Controller
             'pseudo' => $request->pseudo,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'openai_api_key' => $request->openai_api_key,
+            'openai_api_key' => Crypt::encryptString($request->openai_api_key),
         ]);
 
         event(new Registered($user));

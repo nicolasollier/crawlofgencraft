@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Crypt;
 
 class OpenAIService
 {
@@ -23,11 +24,12 @@ class OpenAIService
             throw new \Exception('Utilisateur non authentifié');
         }
 
-        $apiKey = Auth::user()->openai_api_key;
-        if (empty($apiKey)) {
+        $encryptedKey = Auth::user()->openai_api_key;
+        if (empty($encryptedKey)) {
             throw new \Exception('Clé API OpenAI non configurée');
         }
 
+        $apiKey = Crypt::decryptString($encryptedKey);
         config(['openai.api_key' => $apiKey]);
     }
 
