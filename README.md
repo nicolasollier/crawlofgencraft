@@ -9,7 +9,6 @@ Crawl of Gencraft est un jeu d'aventure textuel unique où chaque donjon est gé
 
 - Un système de génération de donjons par IA
 - Une gestion d'inventaire et de marchand
-- Des combats au tour par tour
 - Une personnalisation poussée des personnages
 - Une expérience narrative unique à chaque partie
 
