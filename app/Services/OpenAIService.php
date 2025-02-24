@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
-use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Crypt;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class OpenAIService
 {
