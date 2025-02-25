@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\DropItemService;
 use App\Services\OpenAIService;
 use App\Services\PromptService;
+use App\Services\RoomGeneratorService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,39 +25,9 @@ class Room extends Model
         $promptService = new PromptService;
         $openAIService = new OpenAIService($promptService);
         $dropItemService = new DropItemService;
+        $roomGeneratorService = new RoomGeneratorService($openAIService, $dropItemService);
 
-        if ($type === 'playerLost') {
-            $description = $openAIService->generateRoomDescription($type, $player_action, true);
-            $options = ['options' => ['Recommencer']];
-        } elseif ($type === 'treasure' && $is_success) {
-            $droppedItem = $dropItemService->dropItem($is_success);
-            $description = $openAIService->generateRoomDescription($type, $player_action, true, $droppedItem);
-
-            if ($droppedItem) {
-                $character = $dungeon->character;
-                $character->inventory()->create([
-                    'item_id' => $droppedItem->id,
-                    'equipped' => false,
-                ]);
-            }
-
-            $options = $openAIService->generateRoomOptions($type, $description['description']);
-        } elseif ($type === 'exit') {
-            $description = $openAIService->generateRoomDescription($type, $player_action, true);
-            $options = ['options' => ['Sortir du donjon']];
-        } else {
-            $description = $openAIService->generateRoomDescription($type, $player_action, $is_success);
-            $options = $openAIService->generateRoomOptions($type, $description['description']);
-        }
-
-        return new self([
-            'dungeon_id' => $dungeon->id,
-            'room_number' => $dungeon->room_count + 1,
-            'type' => $type,
-            'description' => $description['description'],
-            'options' => $options['options'],
-            'is_success' => $is_success,
-        ]);
+        return $roomGeneratorService->generateRoom($type, $dungeon, $player_action, $is_success);
     }
 
     public function handleStatsChange(string $type, bool $is_success, int $character_id)

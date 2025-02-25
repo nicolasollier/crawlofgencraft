@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "single_line_empty_body": false,
+        "braces": {
+            "allow_single_line_closure": false
+        }
+    }
+} 

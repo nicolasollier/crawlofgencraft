@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Character;
 use App\Models\Dungeon;
 use App\Models\Room;
+use App\Services\DungeonProgressionService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,6 @@ class DungeonController extends Controller
 {
     public function create(Request $request)
     {
-
         $character = Character::find($request->character_id);
 
         if (! $character) {
@@ -39,38 +39,10 @@ class DungeonController extends Controller
     public function progress(Request $request)
     {
         $dungeon = Dungeon::with('rooms')->findOrFail($request->dungeon_id);
-        $dungeon->room_count++;
 
-        $player_action = $request->action;
+        $progressionService = new DungeonProgressionService;
+        $progressionService->progressDungeon($dungeon, $request->action);
 
-        $size_map = [
-            'small' => 10,
-            'medium' => 25,
-            'large' => 50,
-        ];
-
-        $max_rooms = $size_map[$dungeon->size] ?? 10;
-
-        if ($dungeon->character->hp <= 0) {
-            $playerLost = Room::generate('playerLost', $dungeon, $player_action, false);
-            $dungeon->rooms()->save($playerLost);
-        } elseif ($dungeon->room_count >= $max_rooms) {
-            $exitRoom = Room::generate('exit', $dungeon, $player_action, true);
-            $dungeon->rooms()->save($exitRoom);
-        } else {
-            $room_types = ['encounter', 'trapped', 'treasure', 'enigma', 'empty'];
-            $random_room_type = $room_types[array_rand($room_types)];
-            $roomIsSuccess = rand(1, 100) <= 50;
-
-            if ($dungeon->room_count >= $dungeon->rooms->count()) {
-                $newRoom = Room::generate($random_room_type, $dungeon, $player_action, $roomIsSuccess);
-                $newRoom->handleStatsChange($random_room_type, $roomIsSuccess, $dungeon->character_id);
-
-                $dungeon->rooms()->save($newRoom);
-            }
-        }
-
-        $dungeon->save();
         $dungeon = Dungeon::with('rooms')->find($request->dungeon_id);
 
         return to_route('dashboard')->with('dungeon', $dungeon);
