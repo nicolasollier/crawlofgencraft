@@ -10,22 +10,26 @@ const dungeonStore = useDungeonStore();
 
 watch(() => page.props?.characters, (newCharacters) => {
     if (newCharacters) {
+        characterStore.resetStore();
         characterStore.setCharacters(newCharacters);
     }
 }, { immediate: true });
 
 watch(() => page.props?.dungeons, (newDungeons) => {
     if (newDungeons) {
+        dungeonStore.resetStore();
         dungeonStore.initializeStore(newDungeons);
     }
 }, { immediate: true });
 
 onMounted(() => {
     if (page.props?.characters) {
+        characterStore.resetStore();
         characterStore.setCharacters(page.props.characters);
     }
     
     if (page.props?.dungeons) {
+        dungeonStore.resetStore();
         dungeonStore.initializeStore(page.props.dungeons);
     }
 });

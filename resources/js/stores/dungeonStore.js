@@ -40,6 +40,13 @@ export const useDungeonStore = defineStore('dungeon', () => {
         isLoading.value = false
     }
 
+    function resetStore() {
+        isInitialized.value = false
+        isLoading.value = true
+        dungeons.value = []
+        currentDungeon.value = null
+    }
+
     return {
         isInitialized,
         isLoading,
@@ -49,7 +56,8 @@ export const useDungeonStore = defineStore('dungeon', () => {
         initializeStore,
         setCurrentDungeon,
         addDungeon,
-        removeDungeon
+        removeDungeon,
+        resetStore
     }
 }, {
     persist: true

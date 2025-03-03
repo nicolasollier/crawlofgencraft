@@ -39,6 +39,13 @@ export const useCharacterStore = defineStore('character', () => {
         isLoading.value = false
     }
 
+    function resetStore() {
+        isInitialized.value = false
+        isLoading.value = true
+        characters.value = []
+        currentCharacter.value = null
+    }
+
     return {
         isInitialized,
         isLoading,
@@ -48,7 +55,8 @@ export const useCharacterStore = defineStore('character', () => {
         inventory,
         initializeStore,
         setCharacters,
-        setCurrentCharacter
+        setCurrentCharacter,
+        resetStore
     }
 }, {
     persist: true
