@@ -3,8 +3,8 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DungeonController;
-use App\Http\Controllers\MerchantController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\MerchantController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

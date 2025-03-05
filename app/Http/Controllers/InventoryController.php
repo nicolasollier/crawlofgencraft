@@ -10,7 +10,7 @@ class InventoryController extends Controller
     {
         $inventory = Inventory::findOrFail($inventory_id);
         $itemType = $inventory->item->item_type;
-    
+
         if (in_array($itemType, ['weapon', 'armor'])) {
             Inventory::where('character_id', $inventory->character_id)
                 ->where('equipped', true)
