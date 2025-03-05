@@ -9,6 +9,7 @@ import CitationBlock from '@/Components/Character/CitationBlock.vue';
 import CardFooter from '@/Components/ui/card/CardFooter.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Loader2 } from 'lucide-vue-next';
+import { router } from '@inertiajs/vue3';
 
 const characterStore = useCharacterStore();
 const { currentCharacter, inventory, isLoading } = storeToRefs(characterStore);
@@ -59,9 +60,9 @@ const onDrop = (event) => {
 <template>
     <AuthenticatedLayout>
         <div v-if="!isLoading && currentCharacter" class="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-4 p-2 sm:p-4">
-            <CharacterInfos  
+            <CharacterInfos 
                 :currentCharacter="currentCharacter" 
-                :inventory="inventory" 
+                :inventory="inventory"
             />
 
             <div class="bg-zinc-100 rounded-md flex flex-col lg:col-span-2">

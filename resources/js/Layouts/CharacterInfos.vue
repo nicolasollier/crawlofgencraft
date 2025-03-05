@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 import { Heart, Zap, Coins, Shield, Sword } from 'lucide-vue-next';
 import Input from "@/Components/ui/input/Input.vue";
 import Label from "@/Components/ui/label/Label.vue";
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     currentCharacter: {
@@ -15,31 +15,16 @@ const props = defineProps({
     },
 });
 
-const draggedItemId = ref(null);
-
-const onDragStart = (event, item) => {
-    draggedItemId.value = item.id;
-    event.dataTransfer.setData('application/json', JSON.stringify(item));
-    event.dataTransfer.effectAllowed = 'move';
-
-    const dragImage = event.target.cloneNode(true);
-    dragImage.style.width = `${event.target.offsetWidth}px`;
-    dragImage.style.height = `${event.target.offsetHeight}px`;
-    dragImage.style.position = 'fixed';
-    dragImage.style.left = '-1000px';
-    dragImage.style.top = '0';
-    dragImage.style.opacity = '0.8';
-    document.body.appendChild(dragImage);
-    
-    event.dataTransfer.setDragImage(dragImage, event.offsetX, event.offsetY);
-    
-    setTimeout(() => {
-        document.body.removeChild(dragImage);
-    }, 0);
-};
-
-const onDragEnd = () => {
-    draggedItemId.value = null;
+const handleEquipItem = (item) => {
+    if (item.equipped) {
+        router.post(route('inventory.unequip-item', { inventory_id: item.inventory_id }), {}, {
+            preserveScroll: true
+        });
+    } else {
+        router.post(route('inventory.equip-item', { inventory_id: item.inventory_id }), {}, {
+            preserveScroll: true
+        });
+    }
 };
 </script>
 
@@ -100,21 +85,20 @@ const onDragEnd = () => {
                         <div class="pr-4 space-y-2 p-1">
                             <div v-for="item in inventory" 
                                  :key="item.id"
-                                 draggable="true"
-                                 @dragstart="onDragStart($event, item)"
-                                 @dragend="onDragEnd"
-                                 class="p-3 rounded-md border transition-all duration-300 ease-out cursor-pointer"
-                                 :class="[
-                                     draggedItemId === item.id 
-                                         ? 'bg-gray-100 [&_*]:opacity-0' 
-                                         : 'bg-white border-zinc-200 hover:shadow-md'
-                                 ]"
+                                 class="p-3 rounded-md border transition-all duration-300 ease-out"
                             >
                                 <div class="flex justify-between items-start">
                                     <h3 class="text-base font-semibold">{{ item.name }}</h3>
                                 </div>
-                                <p class="text-xs text-zinc-600 mt-1 mb-2">{{ item.description }}</p>
+                                <p class="text-xs text-zinc-600 mt-1 mb-3">{{ item.description }}</p>
                                 <div class="flex gap-2 text-xs">
+                                    <span 
+                                        @click="handleEquipItem(item)"
+                                        class="px-2 py-1 rounded-full cursor-pointer"
+                                        :class="{ 'bg-zinc-800 text-white hover:bg-zinc-700': item.equipped, 'bg-zinc-100 text-zinc-800 hover:bg-zinc-200': !item.equipped }"
+                                    >
+                                        {{ item.equipped ? 'Déséquiper' : 'Équiper' }}
+                                    </span>
                                     <span v-if="item.armor_bonus" class="text-zinc-800 bg-zinc-100 px-2 py-1 rounded-full">
                                         <Shield class="inline w-3 h-3 mr-1" />
                                         +{{ item.armor_bonus }}
@@ -136,19 +120,3 @@ const onDragEnd = () => {
         </fieldset>
     </div>
 </template>
-
-<style scoped>
-[draggable="true"] {
-    transition: opacity 0.1s ease, box-shadow 0.1s ease, transform 0.1s ease-out;
-}
-
-[draggable="true"]:hover {
-    transform: scale(1.02);
-}
-
-[draggable="true"]:active {
-    opacity: 0.7;
-    cursor: grabbing;
-    transform: none;
-}
-</style>

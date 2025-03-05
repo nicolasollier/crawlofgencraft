@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CharacterInfos from '@/Layouts/CharacterInfos.vue';
-import { Link } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 import Output from '@/Layouts/Output.vue';
 import Button from "@/Components/ui/button/Button.vue";
 import { PlusCircle } from "lucide-vue-next";
@@ -20,7 +20,7 @@ const cardHovered = ref(false);
         <div v-if="hasCharacters" class="grid flex-1 gap-4 h-full overflow-hidden p-4 md:grid-cols-2 lg:grid-cols-3">
             <CharacterInfos 
                 :currentCharacter="currentCharacter" 
-                :inventory="inventory" 
+                :inventory="inventory"
             />
             <Output />
         </div>

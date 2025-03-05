@@ -31,7 +31,6 @@ class CharacterController extends Controller
             'intelligence' => $validated['intelligence'],
         ]);
 
-        // Add default items to the character
         $this->addDefaultItems($character);
 
         return redirect()->route('dashboard')->with('success', 'Personnage créé avec succès !');
@@ -76,7 +75,6 @@ class CharacterController extends Controller
             ]
         );
 
-        // Add items to character's inventory
         $character->inventory()->create(['item_id' => $rags->id, 'equipped' => true]);
         $character->inventory()->create(['item_id' => $knife->id, 'equipped' => true]);
     }

@@ -8,8 +8,14 @@ export const useCharacterStore = defineStore('character', () => {
     const currentCharacter = ref(null)
 
     const hasCharacters = computed(() => characters.value.length > 0)
-    const inventory = computed(() => 
-        currentCharacter.value?.inventory.map((entry) => entry.item) || []
+    const inventory = computed(() =>
+        currentCharacter.value?.inventory.map((entry) => {
+            return {
+                ...entry.item,
+                inventory_id: entry.id,
+                equipped: entry.equipped
+            }
+        }) || []
     )
 
     function initializeStore(newCharacters) {

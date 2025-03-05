@@ -4,6 +4,7 @@ use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DungeonController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,10 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::post('/dungeon', [DungeonController::class, 'create'])->name('dungeon.create');
     Route::post('/dungeon/progress', [DungeonController::class, 'progress'])->name('dungeon.progress');
     Route::delete('/dungeon/{dungeon}', [DungeonController::class, 'destroy'])->name('dungeon.destroy');
+
+    // Inventory
+    Route::post('/inventory/{inventory_id}/equip', [InventoryController::class, 'equipItem'])->name('inventory.equip-item');
+    Route::post('/inventory/{inventory_id}/unequip', [InventoryController::class, 'unequipItem'])->name('inventory.unequip-item');
 });
 
 require __DIR__.'/auth.php';
